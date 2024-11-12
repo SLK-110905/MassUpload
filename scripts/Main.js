@@ -57,19 +57,19 @@ define("MassUpload/scripts/Main", [
                             for (let line of rows) {
                                 let part = line.split(',');
                                 parts.push({
-                                    partType: part[0],
-                                    partName: part[1],
-                                    PartRevision: part[2],
-                                    partDescription: part[3],
-                                    partUnitOFMeasure: part[4],
-                                    uomType: part[5],
-                                    drawingRequired: part[6],
-                                    articleRequired: part[7],
-                                    ongoingSpectionRequired: part[8]
+                                    type: part[0],
+                                    attributes:{
+                                        title: part[1],
+                                        description: part[2],
+                                        isManufacturable: part[3],
+                                        description:part[4],
+                                    }
                                 });
                             }
                             console.log(parts);
-                            document.getElementById("status").innerHTML = JSON.stringify(parts);
+                            document.getElementById("status").innerHTML = "Uploading";
+                            let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/";
+
                         };
                         reader.readAsText(file);
                     }
