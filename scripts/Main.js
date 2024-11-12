@@ -3,6 +3,7 @@ define("MassUpload/scripts/Main", [
 ],
     function (WAFData) {
         let myWidget = {
+            ctx: "VPLMProjectLeader.0000000001.Micro Motion",
             onLoad: function () {
                 alert("widget has been Loaded");
                 this.getCSRFToken();
@@ -39,6 +40,7 @@ define("MassUpload/scripts/Main", [
                         console.log("csrfValue", csrfValue);
                         myWidget.csrfToken = csrfValue;
                         myWidget.securityContextValue = securityContextValue;
+                        console.log("widget--"+widget)
                     }
                 });
             },
@@ -73,9 +75,9 @@ define("MassUpload/scripts/Main", [
                             console.log(requestBody);
                             document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
                             console.log("csrfToken", myWidget.csrfToken);
-                            console.log("securityContextValue", myWidget.securityContextValue);
+                            console.log("securityContextValue", myWidget.ctx);
                             let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
-                            /*WAFData.proxifiedRequest(partUrl, {
+                            WAFData.proxifiedRequest(partUrl, {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -89,7 +91,7 @@ define("MassUpload/scripts/Main", [
                                     console.log("response", res);
                                     document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
                                 }
-                            });*/
+                            });
 
                         };
                         reader.readAsText(file);
