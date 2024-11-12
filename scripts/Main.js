@@ -75,10 +75,11 @@ define("MassUpload/scripts/Main", [
                             myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
                             myHeaders[securityContextHeader] = myWidget.ctx;
                             myHeaders["Content-Type"] = "application/json";
-                            WAFData.authenticatedRequest(partUrl, {
+                            WAFData.proxifiedRequest(partUrl, {
                                 method: "POST",
                                 headers: myHeaders,
-                                body: JSON.stringify(requestBody),
+                                credentials: 'include',
+                                data: JSON.stringify(requestBody),
                                 timeout: 150000,
                                 type: "json",
                                 onComplete: function (res, headerRes) {
