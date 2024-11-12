@@ -79,9 +79,9 @@ define("MassUpload/scripts/Main", [
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: {
-                                    content_type: "application/json",
-                                    ENO_CSRF_TOKEN: myWidget.csrfToken,
-                                    SecurityContext: myWidget.ctx
+                                    "Content-Type": "application/json",
+                                    "ENO_CSRF_TOKEN": myWidget.csrfToken,
+                                    "SecurityContext": myWidget.ctx
                                 },
                                 data: JSON.stringify(requestBody),
                                 timeout: 150000,
@@ -89,7 +89,11 @@ define("MassUpload/scripts/Main", [
                                 onComplete: function (res, headerRes) {
                                     console.log("response", res);
                                     document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
+                                },
+                                onFailure(err, errhead) {
+                                    console.log(err);
                                 }
+                                
                             });
 
                         };
