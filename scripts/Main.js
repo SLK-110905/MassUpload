@@ -8,14 +8,14 @@ define("MassUpload/scripts/Main", [
                 alert("widget has been Loaded");
                 document.getElementById("importbtn").addEventListener("click", this.importItem);
             },
-            updateWidget: function () {t
+            updateWidget: function () {
 
             },
             importItem: function (data) {
                 console.log("importing item");
                 // URLs
                 let csrfURL = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152";
-            WAFData.proxifiedRequest(csrfURL, {
+                WAFData.authenticatedRequest(csrfURL, {
                     method: "Get",
                     headers: {
 
