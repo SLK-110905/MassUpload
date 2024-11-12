@@ -18,7 +18,7 @@ define("MassUpload/scripts/Main", [
                 let csrfURL = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152"
                 let createPartUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/";
 
-                WAFData.proxifiedRequest(csrfURL, {
+            WAFData.proxifiedRequest(csrfURL, {
                     method: "Get",
                     headers: {
 
@@ -38,7 +38,7 @@ define("MassUpload/scripts/Main", [
                     }
                 });
             },
-            uploadPart: function ()
+            uploadPart: async function ()
             {
                 const importType = document.getElementById("importType").value;
                 const file = document.getElementById("importFile").files[0];
@@ -46,11 +46,11 @@ define("MassUpload/scripts/Main", [
                     console.log("Importing Part");
                     if (file) {
                         const reader = new FileReader();
+                        let parts = [];
                         reader.onload = function (e) {
                             const text = e.target.result;
                             const rows = text.split("\n");
                             rows.shift();
-                            let parts = [];
                             for (let line of rows) {
                                 let part = line.split(',');
                                 parts.push({
@@ -62,39 +62,38 @@ define("MassUpload/scripts/Main", [
                                     }
                                 });
                             }
-                            const requestBody={
-                                items: parts
-                            }
-                            console.log(requestBody);
-                            document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
-                            myWidget.getCSRFToken();
-                            console.log("csrfToken", myWidget.csrfToken);
-                            console.log("securityContextValues", myWidget.ctx);
-                            let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
-                            const securityContextHeader = 'SecurityContext';
-                            const myHeaders = new Object();
-                            myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
-                            myHeaders[securityContextHeader] = myWidget.ctx;
-                            myHeaders["Content-Type"] = "application/json";
-                            WAFData.authenticatedRequest(partUrl, {
-                                method: "POST",
-                                headers: myHeaders,
-                                credentials: 'include',
-                                data: JSON.stringify(requestBody),
-                                timeout: 150000,
-                                type: "json",
-                                onComplete: function (res, headerRes) {
-                                    console.log("response", res);
-                                    document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
-                                },
-                                onFailure(err, errhead) {
-                                    console.log(err);
-                                }
-                                
-                            });
-
                         };
                         reader.readAsText(file);
+                        const requestBody={
+                            items: parts
+                        }
+                        console.log(requestBody);
+                        document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
+                        myWidget.getCSRFToken();
+                        console.log("csrfToken", myWidget.csrfToken);
+                        console.log("securityContextValues", myWidget.ctx);
+                        let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
+                        const securityContextHeader = 'SecurityContext';
+                        const myHeaders = new Object();
+                        myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
+                        myHeaders[securityContextHeader] = myWidget.ctx;
+                        myHeaders["Content-Type"] = "application/json";
+                        WAFData.authenticatedRequest(partUrl, {
+                            method: "POST",
+                            headers: myHeaders,
+                            credentials: 'include',
+                            data: JSON.stringify(requestBody),
+                            timeout: 150000,
+                            type: "json",
+                            onComplete: function (res, headerRes) {
+                                console.log("response", res);
+                                document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
+                            },
+                            onFailure(err, errhead) {
+                                console.log(err);
+                            }
+                            
+                        });
                     }
                 }
                 if(importType === "bom"){
