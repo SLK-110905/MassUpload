@@ -63,9 +63,8 @@ define("MassUpload/scripts/Main", [
                                     type: part[0],
                                     attributes:{
                                         title: part[1],
-                                        description: part[2],
-                                        isManufacturable: part[3],
-                                        description:part[4],
+                                        isManufacturable: part[2],
+                                        description:part[3],
                                     }
                                 });
                             }
