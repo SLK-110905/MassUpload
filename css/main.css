@@ -1,0 +1,10 @@
+.center{
+    text-align: center;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+h1{
+    color: #333;
+    font-weight: 1000;
+}
