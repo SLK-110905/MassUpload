@@ -74,6 +74,7 @@ define("MassUpload/scripts/Main", [
                             const myHeaders = new Object();
                             myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
                             myHeaders[securityContextHeader] = myWidget.ctx;
+                            myHeaders["Content-Type"] = "application/json";
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: myHeaders,
