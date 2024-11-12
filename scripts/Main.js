@@ -38,6 +38,7 @@ define("MassUpload/scripts/Main", [
                         console.log("csrfToken", csrfToken);
                         console.log("csrfValue", csrfValue);
                         myWidget.csrfToken = csrfValue;
+                        myWidget.securityContextValue = securityContextValue;
                     }
                 });
             },
@@ -76,7 +77,8 @@ define("MassUpload/scripts/Main", [
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
-                                    "X-CSRF-TOKEN": myWidget.csrfToken
+                                    "ENO_CSRF_TOKEN": myWidget.csrfToken,
+                                    "securityContextValuesecurityContextValue": myWidget.securityContextValue
                                 },
                                 data: requestBody,
                                 timeout: 150000,
