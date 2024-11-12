@@ -8,3 +8,13 @@ h1{
     color: #333;
     font-weight: 1000;
 }
+.scrollable-textarea {
+    width: 300px;       /* Set the width of the textarea */
+    height: 150px;      /* Set the height of the textarea */
+    resize: both;       /* Allow resizing of the textarea */
+    overflow: auto;     /* Enable scrollbar when content overflows */
+    padding: 10px;      /* Padding inside the textarea */
+    border: 2px solid #ccc; /* Border around the textarea */
+    font-family: Arial, sans-serif; /* Font style */
+    font-size: 14px;    /* Font size */
+}

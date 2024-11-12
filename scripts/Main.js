@@ -57,7 +57,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     };
                     console.log(requestBody);
                     document.getElementById("status").innerHTML =
-                        "<br>Request PayLoad: " + JSON.stringify(requestBody);
+                        "<br> <textarea class='scrollable-textarea'>" + JSON.stringify(requestBody)+ "</textarea>";
                     console.log("csrfToken", csrfTokenValue);
                     console.log("securityContextValues", myWidget.ctx);
                     const securityContextHeader = "SecurityContext";
@@ -75,7 +75,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         onComplete: function (res, headerRes) {
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
-                                "<br>Response PayLoad: " + JSON.stringify(res);
+                                "<br> <textarea class='scrollable-textarea'>" + JSON.stringify(res)+ "</textarea>";
                         },
                         onFailure(err, errhead) {
                             console.log(err);
