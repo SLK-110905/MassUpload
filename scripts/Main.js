@@ -79,9 +79,8 @@ define("MassUpload/scripts/Main", [
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: {
-                                    "Content-Type": "application/json",
-                                    "ENO_CSRF_TOKEN": myWidget.csrfToken,
-                                    "SecurityContext": myWidget.ctx
+                                    ENO_CSRF_TOKEN: myWidget.csrfToken,
+                                    SecurityContext: myWidget.ctx
                                 },
                                 data: JSON.stringify(requestBody),
                                 timeout: 150000,
