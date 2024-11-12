@@ -88,6 +88,7 @@ define("MassUpload/scripts/Main", [
                                 type: "json",
                                 onComplete: function (res, headerRes) {
                                     console.log("response", res);
+                                    console.log("header", headerRes);
                                     document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
                                 }
                             });
