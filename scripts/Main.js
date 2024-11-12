@@ -61,7 +61,6 @@ define("MassUpload/scripts/Main", [
                         }
                         console.log(requestBody);
                         document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
-                        myWidget.getCSRFToken();
                         console.log("csrfToken", myWidget.csrfToken);
                         console.log("securityContextValues", myWidget.ctx);
                         let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
