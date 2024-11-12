@@ -77,7 +77,7 @@ define("MassUpload/scripts/Main", [
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: myHeaders,
-                                data: JSON.stringify(requestBody),
+                                body: JSON.stringify(requestBody),
                                 timeout: 150000,
                                 type: "json",
                                 onComplete: function (res, headerRes) {
