@@ -28,7 +28,7 @@ define("MassUpload/scripts/Main", [
                     onComplete: function (res, headerRes) {
                         const csrfToken = res.csrf.name;
                         const csrfValue = res.csrf.value;
-                        this.uploadPart();
+                        myWidget.uploadPart();
                     }
                 });
             },
