@@ -81,7 +81,7 @@ define("MassUpload/scripts/Main", [
                                 headers: {
                                     "Content-Type": "application/json",
                                     "ENO_CSRF_TOKEN": myWidget.csrfToken,
-                                    "securityContextValuesecurityContextValue": myWidget.ctx
+                                    "SecurityContext": myWidget.ctx
                                 },
                                 data: requestBody,
                                 timeout: 150000,
