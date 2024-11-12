@@ -69,6 +69,7 @@ define("MassUpload/scripts/Main", [
                         }
                         console.log(requestBody);
                         document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
+                        this.getCSRFToken().then(() => {
                         myWidget.getCSRFToken();
                         console.log("csrfToken", myWidget.csrfToken);
                         console.log("securityContextValues", myWidget.ctx);
@@ -95,6 +96,7 @@ define("MassUpload/scripts/Main", [
                             
                         });
                     });
+                });
                     }
                 }
                 if(importType === "bom"){
