@@ -71,7 +71,21 @@ define("MassUpload/scripts/Main", [
                             }
                             console.log(requestBody);
                             document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
-                            let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/";
+                            let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
+                            WAFData.proxifiedRequest(partUrl, {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": myWidget.csrfToken
+                                },
+                                data: requestBody,
+                                timeout: 150000,
+                                type: "json",
+                                onComplete: function (res, headerRes) {
+                                    console.log("response", res);
+                                    document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
+                                }
+                            });
 
                         };
                         reader.readAsText(file);
