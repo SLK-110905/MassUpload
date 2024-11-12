@@ -79,6 +79,7 @@ define("MassUpload/scripts/Main", [
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: {
+                                    content_type: "application/json",
                                     ENO_CSRF_TOKEN: myWidget.csrfToken,
                                     SecurityContext: myWidget.ctx
                                 },
