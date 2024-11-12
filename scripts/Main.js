@@ -80,8 +80,8 @@ define("MassUpload/scripts/Main", [
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
-                                    "ENO_CSRF_TOKEN": myWidget.csrfToken,
-                                    "SecurityContext": myWidget.ctx
+                                    "SecurityContext": myWidget.ctx,
+                                    "ENO_CSRF_TOKEN": myWidget.csrfToken
                                 },
                                 data: JSON.stringify(requestBody),
                                 timeout: 150000,
