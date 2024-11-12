@@ -31,14 +31,8 @@ define("MassUpload/scripts/Main", [
                     onComplete: function (res, headerRes) {
                         const csrfToken = res.csrf.name;
                         const csrfValue = res.csrf.value;
-                        const securityContextHeader = 'SecurityContext';
-                        const securityContextValue = encodeURIComponent(widget.getValue("ctx"));
-                        const myHeaders = new Object();
-                        myHeaders[csrfToken] = csrfValue;
-                        myHeaders[securityContextHeader] = securityContextValue;
-                        console.log("csrfToken", csrfToken);
-                        console.log("csrfValue", csrfValue);
                         myWidget.csrfToken = csrfValue;
+                        myWidget.csrfTokenName = csrfToken;
                         myWidget.securityContextValue = securityContextValue;
                         console.log("widget--"+widget)
                     }
@@ -81,7 +75,7 @@ define("MassUpload/scripts/Main", [
                                 headers: {
                                     "Content-Type": "application/json",
                                     "SecurityContext": myWidget.ctx,
-                                    "ENO_CSRF_TOKEN": myWidget.csrfToken
+                                    csrfTokenName: myWidget.csrfToken
                                 },
                                 data: JSON.stringify(requestBody),
                                 timeout: 150000,
