@@ -83,7 +83,7 @@ define("MassUpload/scripts/Main", [
                                     "ENO_CSRF_TOKEN": myWidget.csrfToken,
                                     "SecurityContext": myWidget.ctx
                                 },
-                                data: requestBody,
+                                data: JSON.stringify(requestBody),
                                 timeout: 150000,
                                 type: "json",
                                 onComplete: function (res, headerRes) {
