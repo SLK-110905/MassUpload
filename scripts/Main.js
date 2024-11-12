@@ -26,8 +26,8 @@ define("MassUpload/scripts/Main", [
                     timeout: 150000,
                     type: "json",
                     onComplete: function (res, headerRes) {
-                        const csrfToken = res.csrf.name;
-                        const csrfValue = res.csrf.value;
+                        const csrfTokenName = res.csrf.name;
+                        const csrfTokenValue = res.csrf.value;
                         myWidget.uploadPart(csrfTokenName,csrfTokenValue);
                     }
                 });
