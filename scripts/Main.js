@@ -7,6 +7,7 @@ define("MassUpload/scripts/Main", [
             onLoad: function () {
                 alert("widget has been Loaded");
                 this.getCSRFToken();
+                console.log("csrfToken"+this.csrfToken);
                 document.getElementById("importbtn").addEventListener("click", this.uploadPart);
             },
             updateWidget: function () {t
@@ -81,14 +82,13 @@ define("MassUpload/scripts/Main", [
                                 headers: {
                                     "Content-Type": "application/json",
                                     "ENO_CSRF_TOKEN": myWidget.csrfToken,
-                                    "securityContextValuesecurityContextValue": myWidget.securityContextValue
+                                    "securityContextValuesecurityContextValue": myWidget.ctx
                                 },
                                 data: requestBody,
                                 timeout: 150000,
                                 type: "json",
                                 onComplete: function (res, headerRes) {
                                     console.log("response", res);
-                                    console.log("header", headerRes);
                                     document.getElementById("status").innerHTML = "Uploaded"+JSON.stringify(res);
                                 }
                             });
