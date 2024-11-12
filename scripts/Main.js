@@ -28,11 +28,11 @@ define("MassUpload/scripts/Main", [
                     onComplete: function (res, headerRes) {
                         const csrfToken = res.csrf.name;
                         const csrfValue = res.csrf.value;
-                        myWidget.uploadPart();
+                        myWidget.uploadPart(csrfTokenName,csrfTokenValue);
                     }
                 });
             },
-            uploadPart: function ()
+            uploadPart: function (csrfTokenName,csrfTokenValue)
             {
                 const importType = document.getElementById("importType").value;
                 const file = document.getElementById("importFile").files[0];
@@ -61,13 +61,13 @@ define("MassUpload/scripts/Main", [
                         }
                         console.log(requestBody);
                         document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
-                        console.log("csrfToken", myWidget.csrfToken);
+                        console.log("csrfToken", csrfTokenValue);
                         console.log("securityContextValues", myWidget.ctx);
                         let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
                         const securityContextHeader = 'SecurityContext';
                         const myHeaders = new Object();
-                        myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
-                        myHeaders[securityContextHeader] = myWidget.ctx;
+                        myHeaders[myWidget.csrfTokenName] = csrfTokenName;
+                        myHeaders[securityContextHeader] = csrfTokenValue;
                         myHeaders["Content-Type"] = "application/json";
                         WAFData.authenticatedRequest(partUrl, {
                             method: "POST",
