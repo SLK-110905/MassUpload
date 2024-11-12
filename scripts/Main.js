@@ -6,8 +6,6 @@ define("MassUpload/scripts/Main", [
             ctx: "VPLMProjectLeader.0000000001.Micro Motion",
             onLoad: function () {
                 alert("widget has been Loaded");
-                this.getCSRFToken();
-                console.log("csrfToken"+this.csrfToken);
                 document.getElementById("importbtn").addEventListener("click", this.importItem);
             },
             updateWidget: function () {t
