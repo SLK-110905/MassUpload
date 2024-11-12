@@ -63,7 +63,7 @@ define("MassUpload/scripts/Main", [
                                 });
                             }
                         };
-                        reader.readAsText(file);
+                        reader.readAsText(file).then(() => {
                         const requestBody={
                             items: parts
                         }
@@ -94,6 +94,7 @@ define("MassUpload/scripts/Main", [
                             }
                             
                         });
+                    });
                     }
                 }
                 if(importType === "bom"){
