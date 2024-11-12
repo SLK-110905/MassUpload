@@ -70,13 +70,12 @@ define("MassUpload/scripts/Main", [
                             console.log("csrfToken", myWidget.csrfToken);
                             console.log("securityContextValues", myWidget.ctx);
                             let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
+                            const myHeaders = new Object();
+                            myHeaders[myWidget.csrfTokenName] = myWidget.csrfToken;
+                            myHeaders[securityContextHeader] = myWidget.ctx;
                             WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "SecurityContext": myWidget.ctx,
-                                    csrfTokenName: myWidget.csrfToken
-                                },
+                                headers: myHeaders,
                                 data: JSON.stringify(requestBody),
                                 timeout: 150000,
                                 type: "json",
