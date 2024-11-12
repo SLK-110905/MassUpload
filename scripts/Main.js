@@ -7,7 +7,6 @@ define("MassUpload/scripts/Main", [
             onLoad: function () {
                 alert("widget has been Loaded");
                 this.getCSRFToken();
-                console.log("csrfToken"+this.csrfToken);
                 document.getElementById("importbtn").addEventListener("click", this.uploadPart);
             },
             updateWidget: function () {t
