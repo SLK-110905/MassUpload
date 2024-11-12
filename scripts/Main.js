@@ -63,7 +63,7 @@ define("MassUpload/scripts/Main", [
                                     type: part[0],
                                     attributes:{
                                         title: part[1],
-                                        isManufacturable:Boolean.parseBoolean(part[2]),
+                                        isManufacturable:part[2].toLowerCase() === 'true',
                                         description:part[3],
                                     }
                                 });
