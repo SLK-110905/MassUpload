@@ -66,8 +66,11 @@ define("MassUpload/scripts/Main", [
                                     }
                                 });
                             }
-                            console.log(parts);
-                            document.getElementById("status").innerHTML = "Uploading";
+                            const requestBody={
+                                items: parts
+                            }
+                            console.log(requestBody);
+                            document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
                             let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/";
 
                         };
