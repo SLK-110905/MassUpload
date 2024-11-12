@@ -76,7 +76,7 @@ define("MassUpload/scripts/Main", [
                             console.log("csrfToken", myWidget.csrfToken);
                             console.log("securityContextValue", myWidget.ctx);
                             let partUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem";
-                            WAFData.proxifiedRequest(partUrl, {
+                            WAFData.authenticatedRequest(partUrl, {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
