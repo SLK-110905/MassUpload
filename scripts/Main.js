@@ -8,16 +8,15 @@ define("MassUpload/scripts/Main", [
                 alert("widget has been Loaded");
                 this.getCSRFToken();
                 console.log("csrfToken"+this.csrfToken);
-                document.getElementById("importbtn").addEventListener("click", this.uploadPart);
+                document.getElementById("importbtn").addEventListener("click", this.importItem);
             },
             updateWidget: function () {t
 
             },
-            getCSRFToken: function (data) {
+            importItem: function (data) {
+                console.log("importing item");
                 // URLs
-                let csrfURL = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152"
-                let createPartUrl = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/";
-
+                let csrfURL = "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152";
             WAFData.proxifiedRequest(csrfURL, {
                     method: "Get",
                     headers: {
@@ -31,14 +30,11 @@ define("MassUpload/scripts/Main", [
                     onComplete: function (res, headerRes) {
                         const csrfToken = res.csrf.name;
                         const csrfValue = res.csrf.value;
-                        myWidget.csrfToken = csrfValue;
-                        myWidget.csrfTokenName = csrfToken;
-                        myWidget.securityContextValue = securityContextValue;
-                        console.log("widget--"+widget)
+                        this.uploadPart();
                     }
                 });
             },
-            uploadPart: async function ()
+            uploadPart: function ()
             {
                 const importType = document.getElementById("importType").value;
                 const file = document.getElementById("importFile").files[0];
@@ -62,14 +58,11 @@ define("MassUpload/scripts/Main", [
                                     }
                                 });
                             }
-                        };
-                        reader.readAsText(file).then(() => {
-                        const requestBody={
+                            const requestBody={
                             items: parts
                         }
                         console.log(requestBody);
                         document.getElementById("status").innerHTML = "Uploading"+JSON.stringify(requestBody);
-                        this.getCSRFToken().then(() => {
                         myWidget.getCSRFToken();
                         console.log("csrfToken", myWidget.csrfToken);
                         console.log("securityContextValues", myWidget.ctx);
@@ -95,8 +88,9 @@ define("MassUpload/scripts/Main", [
                             }
                             
                         });
-                    });
-                });
+                        };
+                        reader.readAsText(file)
+                        
                     }
                 }
                 if(importType === "bom"){
