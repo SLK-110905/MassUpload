@@ -42,9 +42,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const rows = text.split("\n");
                     rows.shift();
                     for (let line of rows) {
-                        let part = line.split(",");
-                        if(part.trim()!="" || part!=undefined)
+                        if(line.trim()!="" || line!=undefined)
                         {
+                            let part = line.split(",");
                             parts.push({
                                 type: part[0],
                                 attributes: {
