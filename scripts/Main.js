@@ -57,7 +57,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     };
                     console.log(requestBody);
                     document.getElementById("status").innerHTML =
-                        "<br>Request PayLoad:" + JSON.stringify(requestBody);
+                        "<br>Request PayLoad Uploading:" + JSON.stringify(requestBody);
                     console.log("csrfToken", csrfTokenValue);
                     console.log("securityContextValues", myWidget.ctx);
                     const securityContextHeader = "SecurityContext";
@@ -65,6 +65,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     myHeaders[csrfTokenName] = csrfTokenValue;
                     myHeaders[securityContextHeader] = myWidget.ctx;
                     myHeaders["Content-Type"] = "application/json";
+                    let startTime = Date.now();
                     WAFData.authenticatedRequest(myWidget.partUrl, {
                         method: "POST",
                         headers: myHeaders,
@@ -73,9 +74,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         timeout: 1500000000,
                         type: "json",
                         onComplete: function (res, headerRes) {
+                            let endTime = Date.now();
+                            let elapsedTime = endTime - startTime;
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
-                                "<br>Response : " + JSON.stringify(res);
+                                "<br>Time Taken: "+elapsedTime+"+Response : " + JSON.stringify(res);
+
                         },
                         onFailure(err, errhead) {
                             console.log(err);
