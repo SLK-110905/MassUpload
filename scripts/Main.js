@@ -76,15 +76,16 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         onComplete: function (res, headerRes) {
                             let endTime = Date.now();
                             let elapsedTime = endTime - startTime;
+                            let minuteTaken=elapsedTime / (1000 * 60);
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
-                                "<br>Time Taken: "+elapsedTime+"+Response : " + JSON.stringify(res);
+                                "<br><p style='color: red;'>Time Taken(Minutes): "+minuteTaken+"</p>Response : " + JSON.stringify(res);
 
                         },
                         onFailure(err, errhead) {
                             console.log(err);
                             document.getElementById("status").innerHTML =
-                                "<br>Failed: " + JSON.stringify(res);
+                                "<br>Failed to Upload: " + JSON.stringify(res);
                         },
                     });
                 };
