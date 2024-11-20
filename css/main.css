@@ -9,6 +9,8 @@ h1{
     font-weight: 1000;
 }
 .scroll-container {
+    width: 300px;      /* Set a width */
+    height: 100%;     /* Set a height */
     overflow-y: scroll; /* Add vertical scrollbar when content overflows */
     border: 1px solid black;
 }
