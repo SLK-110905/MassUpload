@@ -60,7 +60,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     };
                     console.log(requestBody);
                     document.getElementById("status").innerHTML =
-                        "<br>Request PayLoad Uploading:" + JSON.stringify(requestBody);
+                        "<br><p>Request PayLoad Uploading:" + JSON.stringify(requestBody)+"</p>";
                     console.log("csrfToken", csrfTokenValue);
                     console.log("securityContextValues", myWidget.ctx);
                     const securityContextHeader = "SecurityContext";
@@ -82,7 +82,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let minuteTaken=elapsedTime / (1000 * 60);
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
-                                "<br><p style='color: red;'>Time Taken(Minutes): "+minuteTaken+"</p>Response : " + JSON.stringify(res);
+                                "<br><p style='color: red;'>Time Taken(Minutes): "+minuteTaken+"</p><p>Response : " + JSON.stringify(res)+"</p>";
 
                         },
                         onFailure(err, errhead) {
