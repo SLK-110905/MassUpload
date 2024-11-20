@@ -70,7 +70,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         headers: myHeaders,
                         credentials: "include",
                         data: JSON.stringify(requestBody),
-                        timeout: 150000,
                         type: "json",
                         onComplete: function (res, headerRes) {
                             console.log("response", res);
