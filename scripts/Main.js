@@ -43,14 +43,17 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     rows.shift();
                     for (let line of rows) {
                         let part = line.split(",");
-                        parts.push({
-                            type: part[0],
-                            attributes: {
-                                title: part[1],
-                                isManufacturable: part[2].toLowerCase() === "true",
-                                description: part[3],
-                            },
-                        });
+                        if(part.trim()!="" || part!=undefined)
+                        {
+                            parts.push({
+                                type: part[0],
+                                attributes: {
+                                    title: part[1],
+                                    isManufacturable: part[2].toLowerCase() === "true",
+                                    description: part[3],
+                                },
+                            });
+                        }
                     }
                     const requestBody = {
                         items: parts,
