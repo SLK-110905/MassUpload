@@ -163,7 +163,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     credentials: "include",
                                     data: JSON.stringify({
                                         __fcs__jobTicket: res.data[0].dataelements.ticket,
-                                        file_0: widget.convertFileToByteArray(specFile)
+                                        file_0: myWidget.convertFileToByteArray(specFile)
                                     }),
                                     timeout: 150000,
                                     type: "json",
