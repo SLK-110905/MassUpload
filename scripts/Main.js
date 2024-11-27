@@ -45,7 +45,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         console.log("specFiles", specFiles);
                         if (excelFile && specFiles.length > 0) {
                             console.log("Calling Method UploadSpecification");
-                            myWidget.uploadSpecification(csrfTokenName, csrfTokenValue, excelFile, specFiles)
+                            myWidget.uploadSpecifications(csrfTokenName, csrfTokenValue, excelFile, specFiles)
                         }
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
