@@ -151,7 +151,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     credentials: "include",
                                     data: JSON.stringify({
                                         __fcs__jobTicket: res.data[0].dataelements.ticket,
-                                        file_0: specFile
+                                        file_0: widget.convertFileToByteArray(specFile)
                                     }),
                                     timeout: 150000,
                                     type: "json",
@@ -213,6 +213,18 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             };
             reader.readAsText(excelFile);
 
+        },
+        convertFileToByteArray: function (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var bytes = new Uint8Array(e.target.result);
+                var binary = "";
+                for (var i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return binary;
+            };
+            reader.readAsArrayBuffer(file);
         }
     };
     widget.myWidget = myWidget;
