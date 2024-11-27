@@ -41,11 +41,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         console.log("Inside condition specification)")
                         const excelFile = document.getElementById("excelFile").files[0];
                         const specFiles = document.getElementById("importFiles").files;
+                        console.log("excelFile", excelFile);
+                        console.log("specFiles", specFiles);
                         if (excelFile && specFiles.length > 0) {
                             console.log("Calling Method UploadSpecification");
                             myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,excelFile,specFiles)
                         }
-
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
                 }
