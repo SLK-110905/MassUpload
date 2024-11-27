@@ -162,7 +162,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                 const formData = new FormData();
                                 formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                 formData.append("file_0", specFile);
-                                WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
+                                WAFData.proxifiededRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                     method: "POST",
                                     headers: myHeaders,
                                     credentials: "include",
