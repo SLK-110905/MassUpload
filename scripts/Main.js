@@ -144,6 +144,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             timeout: 150000,
                             type: "json",
                             onComplete: function (res, headerRes) {
+                                console.log("Response : ", res);
                                 WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                     method: "POST",
                                     headers: myHeaders,
