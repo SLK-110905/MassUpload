@@ -159,15 +159,15 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             onComplete: function (res, headerRes) {
                                 console.log("Response : ", res);
                                 myHeaders["Content-Type"] = "multipart/form-data";
+                                const formData = new FormData();
+                                formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
+                                formData.append("file_0", specFile);
                                 WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                     method: "POST",
                                     headers: myHeaders,
                                     credentials: "include",
-                                    data: JSON.stringify({
-                                        __fcs__jobTicket: res.data[0].dataelements.ticket,
-                                        file_0: specFile
-                                    }),
-                                    timeout: 150000,
+                                    data: formData,
+                                    timeout: 15000000,
                                     type: "json",
                                     onComplete: function (res, headerRes) {
                                         console.log("Response: ", res);
