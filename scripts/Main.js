@@ -24,7 +24,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 .addEventListener("click", this.importItem);
         },
         importItem: function (data) {
-            console.log("importing item");
+            console.log("Data Migrating");
             WAFData.authenticatedRequest(myWidget.csrfURL, {
                 method: "Get",
                 timeout: 150000,
@@ -38,6 +38,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         myWidget.uploadPart(csrfTokenName, csrfTokenValue, file);
                     }
                     else if (importType === "specification") {
+                        console.log("Inside condition specification)")
                         const excelFile = document.getElementById("excelFile").files[0];
                         const specFiles = document.getElementById("importFiles").files;
                         if (excelFile && specFiles.length > 0) {
