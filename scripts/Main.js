@@ -150,7 +150,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     headers: myHeaders,
                                     credentials: "include",
                                     data: JSON.stringify({
-                                        __fcs__jobTicket: res.data.dataelements.ticket,
+                                        __fcs__jobTicket: res.data[0].dataelements.ticket,
                                         specFile: specFile
                                     }),
                                     timeout: 150000,
