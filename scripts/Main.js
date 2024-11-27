@@ -45,7 +45,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         console.log("specFiles", specFiles);
                         if (excelFile && specFiles.length > 0) {
                             console.log("Calling Method UploadSpecification");
-                            myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,excelFile,specFiles)
+                            myWidget.uploadSpecification(csrfTokenName, csrfTokenValue, excelFile, specFiles)
                         }
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
@@ -113,35 +113,100 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 reader.readAsText(file);
             }
         },
-        uploadSpecification: function (csrfTokenName,csrfTokenValue,excelFile,specFiles) {
+        uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
             console.log("Inside Upload Specification");
-            let checkInToken;
-            const myHeaders = new Object();
-            myHeaders[csrfTokenName] = csrfTokenValue;
-            myHeaders["SecurityContext"] = myWidget.ctx;
-            myHeaders["Content-Type"] = "application/json";
-
-            WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
-                method: "PUT",
-                headers: myHeaders,
-                credentials: "include",
-                data: JSON.stringify({
-                    excelFile: excelFile,
-                    specFiles: specFiles
-                }),
-                timeout: 150000,
-                type: "json",
-                onComplete: function (res, headerRes) {
-                    console.log("response", res);
-                    document.getElementById("status").innerHTML =
-                        "<br><p>Checkin Ticket Response : " + JSON.stringify(res) + "</p>";
-                },
-                onFailure(err, errhead) {
-                    console.log(err);
-                    document.getElementById("status").innerHTML =
-                        "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
-                },
-            });
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const text = e.target.result;
+                const rows = text.split("\n");
+                rows.shift();
+                for (let line of rows) {
+                    if (line.trim() != "" || line != undefined) {
+                        let specInfo = line.split(",");
+                        let title = specInfo[0];
+                        let description = specInfo[1];
+                        let specFileName = specInfo[2];
+                        let specFile = specFiles.find((file) => file.name === specFileName);
+                        if(specFile){
+                        //getting checkinTicket
+                        const myHeaders = new Object();
+                        myHeaders[csrfTokenName] = csrfTokenValue;
+                        myHeaders["SecurityContext"] = myWidget.ctx;
+                        myHeaders["Content-Type"] = "application/json";
+                        WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
+                            method: "PUT",
+                            headers: myHeaders,
+                            credentials: "include",
+                            timeout: 150000,
+                            type: "json",
+                            onComplete: function (res, headerRes) {
+                                WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
+                                    method: "POST",
+                                    headers: myHeaders,
+                                    credentials: "include",
+                                    data: JSON.stringify({
+                                        __fcs__jobTicket: res.data.dataelements.ticket,
+                                        specFile: specFile
+                                    }),
+                                    timeout: 150000,
+                                    type: "json",
+                                    onComplete: function (res, headerRes) {
+                                        console.log("Response: ", res);
+                                        /*WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
+                                            method: "POST",
+                                            headers: myHeaders,
+                                            credentials: "include",
+                                            data: JSON.stringify({
+                                                data:[
+                                                    {
+                                                        dataelements: {
+                                                            title: title,
+                                                            description: description,
+                                                            relateddata:{
+                                                                files: [
+                                                                    {
+                                                                        "dataelements": {
+                                                                            "title":"",
+                                                                            "receipt":res.
+                                                                        }
+                                                                            
+                                                                    }
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }),
+                                            timeout: 150000,
+                                            type: "json",
+                                            onComplete: function (res, headerRes) {
+                                                console.log("Final Response", res);
+                                            },
+                                            onFailure(err, errhead) {
+                                                console.log(err);
+                                                document.getElementById("status").innerHTML =
+                                                    "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                                            },
+                                    });*/
+                                    },
+                                    onFailure(err, errhead) {
+                                        console.log(err);
+                                        document.getElementById("status").innerHTML =
+                                            "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                                    },
+                            })
+                            },
+                            onFailure(err, errhead) {
+                                console.log(err);
+                                document.getElementById("status").innerHTML =
+                                    "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                            },
+                        });
+                    }
+                    }
+                }
+            };
+            reader.readAsText(excelFile);
 
         }
     };
