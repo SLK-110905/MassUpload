@@ -9,7 +9,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
-        
+            document.getElementById("importType").addEventListener("change", function () {
+                const importType = document.getElementById("importType").value;
+                const importFileInputsDiv = document.getElementById("importFileInputsDiv");
+                if (importType === "specification") {
+                    importFileInputsDiv.style.display = "block";
+                }
+            });
+
         },
         updateWidget: function () {
             document
@@ -26,19 +33,23 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const csrfTokenName = res.csrf.name;
                     const csrfTokenValue = res.csrf.value;
                     const importType = document.getElementById("importType").value;
-                    const file = document.getElementById("importFile").files[0];
+                    const file = document.getElementById("excelFile").files[0];
                     if (importType === "part") {
-                        myWidget.uploadPart(csrfTokenName, csrfTokenValue,file);
+                        myWidget.uploadPart(csrfTokenName, csrfTokenValue, file);
                     }
-                    else if(importType === "specification") {
-                        const files = document.getElementById("importFiles").files;
-                        console.log(files);
+                    else if (importType === "specification") {
+                        const excelFile = document.getElementById("excelFile").files[0];
+                        const specFiles = document.getElementById("importFiles").files;
+                        if (excelFile && specFiles.length > 0) {
+                            myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,excelFile,specFiles)
+                        }
+
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
                 }
             });
         },
-        uploadPart: function (csrfTokenName, csrfTokenValue,file) {
+        uploadPart: function (csrfTokenName, csrfTokenValue, file) {
             console.log("Importing Part");
             if (file) {
                 const reader = new FileReader();
@@ -48,8 +59,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const rows = text.split("\n");
                     rows.shift();
                     for (let line of rows) {
-                        if(line.trim()!="" || line!=undefined)
-                        {
+                        if (line.trim() != "" || line != undefined) {
                             let part = line.split(",");
                             parts.push({
                                 type: part[0],
@@ -66,7 +76,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     };
                     console.log(requestBody);
                     document.getElementById("status").innerHTML =
-                        "<br><p>Request PayLoad Uploading:" + JSON.stringify(requestBody)+"</p>";
+                        "<br><p>Request PayLoad Uploading:" + JSON.stringify(requestBody) + "</p>";
                     console.log("csrfToken", csrfTokenValue);
                     console.log("securityContextValues", myWidget.ctx);
                     const securityContextHeader = "SecurityContext";
@@ -85,10 +95,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         onComplete: function (res, headerRes) {
                             let endTime = Date.now();
                             let elapsedTime = endTime - startTime;
-                            let minuteTaken=elapsedTime / (1000 * 60);
+                            let minuteTaken = elapsedTime / (1000 * 60);
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
-                                "<br><p style='color: red;'>Time Taken(Minutes): "+minuteTaken+"</p><p>Response : " + JSON.stringify(res)+"</p>";
+                                "<br><p style='color: red;'>Time Taken(Minutes): " + minuteTaken + "</p><p>Response : " + JSON.stringify(res) + "</p>";
                         },
                         onFailure(err, errhead) {
                             console.log(err);
@@ -100,7 +110,34 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 reader.readAsText(file);
             }
         },
-        uploadSpecification: function() {
+        uploadSpecification: function (csrfTokenName,csrfTokenValue,excelFile,specFiles) {
+            let checkInToken;
+            const myHeaders = new Object();
+            myHeaders[csrfTokenName] = csrfTokenValue;
+            myHeaders[securityContextHeader] = myWidget.ctx;
+            myHeaders["Content-Type"] = "application/json";
+
+            WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
+                method: "PUT",
+                headers: myHeaders,
+                credentials: "include",
+                data: JSON.stringify({
+                    excelFile: excelFile,
+                    specFiles: specFiles
+                }),
+                timeout: 1500000000,
+                type: "json",
+                onComplete: function (res, headerRes) {
+                    console.log("response", res);
+                    document.getElementById("status").innerHTML =
+                        "<br><p>Checkin Ticket Response : " + JSON.stringify(res) + "</p>";
+                },
+                onFailure(err, errhead) {
+                    console.log(err);
+                    document.getElementById("status").innerHTML =
+                        "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                },
+            });
 
         }
     };
