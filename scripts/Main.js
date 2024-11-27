@@ -9,6 +9,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
+        
         },
         updateWidget: function () {
             document
@@ -28,6 +29,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const file = document.getElementById("importFile").files[0];
                     if (importType === "part") {
                         myWidget.uploadPart(csrfTokenName, csrfTokenValue,file);
+                    }
+                    else if(importType === "specification") {
+                        const files = document.getElementById("importFiles").files;
+                        console.log(files);
+                        //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
                 }
             });
@@ -83,7 +89,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             console.log("response", res);
                             document.getElementById("status").innerHTML =
                                 "<br><p style='color: red;'>Time Taken(Minutes): "+minuteTaken+"</p><p>Response : " + JSON.stringify(res)+"</p>";
-
                         },
                         onFailure(err, errhead) {
                             console.log(err);
@@ -95,6 +100,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 reader.readAsText(file);
             }
         },
+        uploadSpecification: function() {
+
+        }
     };
     widget.myWidget = myWidget;
     return myWidget;

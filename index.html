@@ -29,6 +29,7 @@
                 });
             });
     </script>
+
 </head>
 
 <body>
@@ -41,7 +42,7 @@
 <div class="center">
 <select name="importType" id="importType">
     <option value="part">Part</option>
-    <option value="bom">Document/Spec</option>
+    <option value="specification">Document/Spec</option>
     <option value="bom">EBOM Connection</option>
     <option value="bom">Change</option>
     <option value="bom">Manufacturing Item</option>
@@ -50,6 +51,7 @@
     <option value="bom">MCO</option>
 </select>
 <input type="file" id="importFile" name="file" accept=".csv">
+<input type="file" id="importFiles" name="file" multiple>
 <button id="importbtn">Upload</button>
 <div id="status"></div>
 </div>
