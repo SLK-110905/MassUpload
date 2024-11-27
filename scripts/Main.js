@@ -41,6 +41,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const excelFile = document.getElementById("excelFile").files[0];
                         const specFiles = document.getElementById("importFiles").files;
                         if (excelFile && specFiles.length > 0) {
+                            console.log("Calling Method UploadSpecification");
                             myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,excelFile,specFiles)
                         }
 
@@ -111,6 +112,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             }
         },
         uploadSpecification: function (csrfTokenName,csrfTokenValue,excelFile,specFiles) {
+            console.log("Inside Upload Specification");
             let checkInToken;
             const myHeaders = new Object();
             myHeaders[csrfTokenName] = csrfTokenValue;
@@ -125,7 +127,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     excelFile: excelFile,
                     specFiles: specFiles
                 }),
-                timeout: 1500000000,
+                timeout: 150000,
                 type: "json",
                 onComplete: function (res, headerRes) {
                     console.log("response", res);
