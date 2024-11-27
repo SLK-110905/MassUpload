@@ -113,6 +113,18 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 reader.readAsText(file);
             }
         },
+        convertFileToByteArray: function (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var bytes = new Uint8Array(e.target.result);
+                var binary = "";
+                for (var i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return binary;
+            };
+            reader.readAsArrayBuffer(file);
+        },
         uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
             console.log("Inside Upload Specification");
             const reader = new FileReader();
@@ -214,18 +226,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             reader.readAsText(excelFile);
 
         },
-        convertFileToByteArray: function (file) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                var bytes = new Uint8Array(e.target.result);
-                var binary = "";
-                for (var i = 0; i < bytes.byteLength; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-                return binary;
-            };
-            reader.readAsArrayBuffer(file);
-        }
     };
     widget.myWidget = myWidget;
     return myWidget;
