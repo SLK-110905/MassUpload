@@ -126,7 +126,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         let title = specInfo[0];
                         let description = specInfo[1];
                         let specFileName = specInfo[2];
-                        let specFile = specFiles.find((file) => file.name === specFileName);
+                        let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
                         if(specFile){
                         //getting checkinTicket
                         const myHeaders = new Object();
