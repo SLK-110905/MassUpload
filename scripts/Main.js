@@ -121,6 +121,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 for (var i = 0; i < bytes.byteLength; i++) {
                     binary += String.fromCharCode(bytes[i]);
                 }
+                console.binary("Binary", binary);
                 return binary;
             };
             reader.readAsArrayBuffer(file);
