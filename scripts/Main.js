@@ -118,7 +118,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             let checkInToken;
             const myHeaders = new Object();
             myHeaders[csrfTokenName] = csrfTokenValue;
-            myHeaders[securityContextHeader] = myWidget.ctx;
+            myHeaders["SecurityContext"] = myWidget.ctx;
             myHeaders["Content-Type"] = "application/json";
 
             WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
