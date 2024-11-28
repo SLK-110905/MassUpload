@@ -188,6 +188,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                             }
                                                         ]
                                                     }
+                                                    myHeaders["Content-Type"] = "application/json";
                                                     WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
                                                         method: "POST",
                                                         headers: myHeaders,
