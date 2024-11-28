@@ -129,7 +129,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         let title = specInfo[0].trim();
                         let description = specInfo[1].trim();
                         let specFileName = specInfo[2].trim();
-                        console.log("Title: ", title);
+                        console.log("Title: ", title).trim();
                         console.log("Description: ", description);
                         console.log("SpecFileName: ", specFileName);
                         let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
@@ -139,6 +139,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             const myHeaders = new Object();
                             myHeaders[csrfTokenName] = csrfTokenValue;
                             myHeaders["SecurityContext"] = myWidget.ctx;
+                            //myHeaders["Content-Type"] = "application/json";
                             WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
                                 method: "PUT",
                                 headers: myHeaders,
@@ -166,14 +167,34 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 data: formData,
                                                 onComplete: function (resFcsCheckin, resFcsHeaders) {
                                                     console.log(resFcsCheckin);
-                                                    myHeaders["Content-Type"] = "application/json";
+                                                    const DocumentRequestBody = {
+                                                        "data": [
+                                                            {
+                                                                "dataelements": {
+                                                                    "title": title,
+                                                                    "description": description,
+                                                                },
+                                                                "relateddata": {
+                                                                    "files": [
+                                                                        {
+                                                                            "dataelements": {
+                                                                                "title": specFile.name,
+                                                                                "receipt": resFcsCheckin
+                                                                            },
+                                                                            "updateAction": "CREATE"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
                                                     WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
                                                         method: "POST",
                                                         headers: myHeaders,
                                                         credentials: "include",
                                                         data: JSON.stringify({
                                                             data: [
-                                                                JSON.stringify({
+                                                                {
                                                                     dataelements: {
                                                                         title: title,
                                                                         description: description,
@@ -189,7 +210,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                                             ]
                                                                         }
                                                                     }
-                                                                })
+                                                                }
                                                             ]
                                                         }),
                                                         timeout: 1500000000000,
