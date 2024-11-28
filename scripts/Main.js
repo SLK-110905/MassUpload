@@ -182,7 +182,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                                                 {
                                                                                     dataelements: {
                                                                                         title: specFile.name,
-                                                                                        receipt: res
+                                                                                        receipt: resFcsCheckin
                                                                                     },
                                                                                     updateAction: "CREATE"
                                                                                 }
