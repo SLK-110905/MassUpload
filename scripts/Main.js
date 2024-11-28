@@ -163,7 +163,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                 formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                 formData.append("file_0", specFile);
                                 WAFData.proxifiedRequest(myWidget.csrfURL,{
-                                    method: "POST",
+                                    method: "GET",
                                     credentials: "include",
                                     timeout: 15200000,
                                     type: "json",
