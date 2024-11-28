@@ -120,6 +120,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 const text = e.target.result;
                 const rows = text.split("\n");
                 rows.shift();
+                console.log(rows.length)
                 for (let line of rows) {
                     console.log("Line: ", line);
                     if (line.trim() != "" || line != undefined) {
@@ -178,11 +179,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                                         relateddata: {
                                                                             files: [
                                                                                 {
-                                                                                    "dataelements": {
-                                                                                        "title": specFile.name,
-                                                                                        "receipt": res
+                                                                                    dataelements: {
+                                                                                        title: specFile.name,
+                                                                                        receipt: res
                                                                                     },
-                                                                                    "updateAction": "CREATE"
+                                                                                    updateAction: "CREATE"
                                                                                 }
                                                                             ]
                                                                         }
