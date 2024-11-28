@@ -184,6 +184,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
                                     }
                                 })
+                                /*
                                 WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                     method: "POST",
                                     headers: myHeaders,
@@ -228,14 +229,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 document.getElementById("status").innerHTML =
                                                     "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
                                             },
-                                    });*/
+                                    });
                                     },
                                     onFailure(err, errhead) {
                                         console.log(err);
                                         document.getElementById("status").innerHTML =
                                             "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
                                     },
-                            })
+                            })*/
                             },
                             onFailure(err, errhead) {
                                 console.log(err);
