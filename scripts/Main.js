@@ -149,7 +149,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const myHeaders = new Object();
                         myHeaders[csrfTokenName] = csrfTokenValue;
                         myHeaders["SecurityContext"] = myWidget.ctx;
-                        myHeaders["Content-Type"] = "application/json";
+                        //myHeaders["Content-Type"] = "application/json";
                         WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
                             method: "PUT",
                             headers: myHeaders,
@@ -158,7 +158,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             type: "json",
                             onComplete: function (res, headerRes) {
                                 console.log("Response : ", res);
-                                myHeaders["Content-Type"] = "multipart/form-data; boundary=----WebKitFormBoundarytNtNiNM34RKN6uN8";
                                 const formData = new FormData();
                                 formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                 formData.append("file_0", specFile);
