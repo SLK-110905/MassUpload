@@ -126,9 +126,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     console.log("Line: ", line);
                     if (line.trim() != "" || line != undefined) {
                         let specInfo = line.split(",");
-                        let title = specInfo[0];
-                        let description = specInfo[1];
-                        let specFileName = specInfo[2];
+                        let title = specInfo[0].trim();
+                        let description = specInfo[1].trim();
+                        let specFileName = specInfo[2].trim();
                         console.log("Title: ", title);
                         console.log("Description: ", description);
                         console.log("SpecFileName: ", specFileName);
