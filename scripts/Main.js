@@ -115,6 +115,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         },
         uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
             console.log("Inside Upload Specification");
+            console.log("Specification Files: ", specFiles);
             const reader = new FileReader();
             reader.onload = function (e) {
                 const text = e.target.result;
