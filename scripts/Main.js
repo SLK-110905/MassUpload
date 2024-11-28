@@ -158,7 +158,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             type: "json",
                             onComplete: function (res, headerRes) {
                                 console.log("Response : ", res);
-                                myHeaders["Content-Type"] = "multipart/form-data";
+                                myHeaders["Content-Type"] = "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW";
                                 const formData = new FormData();
                                 formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                 formData.append("file_0", specFile);
