@@ -181,7 +181,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                                                     "dataelements": {
                                                                                         "title": specFile.name,
                                                                                         "receipt": res
-                                                                                    }
+                                                                                    },
+                                                                                    "updateAction": "CREATE"
                                                                                 }
                                                                             ]
                                                                         }
@@ -189,7 +190,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                                 }
                                                             ]
                                                         }),
-                                                        timeout: 150000,
+                                                        timeout: 1500000000000,
                                                         type: "json",
                                                         onComplete: function (res, headerRes) {
                                                             console.log("Final Response", res);
