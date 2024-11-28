@@ -162,6 +162,28 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                 const formData = new FormData();
                                 formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                 formData.append("file_0", specFile);
+                                WAFData.proxifiedRequest(myWidget.csrfURL,{
+                                    method: "POST",
+                                    credentials: "include",
+                                    timeout: 15200000,
+                                    type: "json",
+                                    onComplete: function (csrfRes,headerRes){
+                                        myHeaders[csrfTokenName]=csrfRes.csrf.value;
+                                        WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin",{
+                                            method:"POST",
+                                            credentials: "include",
+                                            timeout: 150000000,
+                                            headers:myHeaders,
+                                            data:formData,
+                                            onComplete: function(resFcsCheckin,resFcsHeaders){
+                                                console.log(resFcsCheckin);
+                                            }
+                                        })
+                                    },
+                                    onFailure: function(err,errheader){
+
+                                    }
+                                })
                                 WAFData.authenticatedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                     method: "POST",
                                     headers: myHeaders,
