@@ -129,7 +129,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         let title = specInfo[0].trim();
                         let description = specInfo[1].trim();
                         let specFileName = specInfo[2].trim();
-                        console.log("Title: ", title).trim();
+                        console.log("Title: ", title);
                         console.log("Description: ", description);
                         console.log("SpecFileName: ", specFileName);
                         let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
