@@ -151,14 +151,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     const formData = new FormData();
                                     formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                     formData.append("file_0", specFile);
-                                    WAFData.proxifiedRequest(myWidget.csrfURL, {
-                                        method: "GET",
-                                        credentials: "include",
-                                        timeout: 15200000,
-                                        type: "json",
-                                        onComplete: function (csrfRes, headerRes) {
-                                            console.log("CSRF Response: ", csrfRes);
-                                            //myHeaders[csrfTokenName]=csrfRes.csrf.value;
                                             WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                                 method: "POST",
                                                 credentials: "include",
@@ -209,11 +201,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 onFailure: function (err, errheader) {
                                                     console.log("FCS CheckIn Error" + err);
                                                 }
-                                            })
-                                        },
-                                        onFailure: function (err, errheader) {
-
-                                        }
                                     })
                                 },
                                 onFailure(err, errhead) {
