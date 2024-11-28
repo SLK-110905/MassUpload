@@ -169,7 +169,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     type: "json",
                                     onComplete: function (csrfRes,headerRes){
                                         console.log("CSRF Response: ",csrfRes);
-                                        /*myHeaders[csrfTokenName]=csrfRes.csrf.value;
+                                        myHeaders[csrfTokenName]=csrfRes.csrf.value;
                                         WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin",{
                                             method:"POST",
                                             credentials: "include",
@@ -178,8 +178,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                             data:formData,
                                             onComplete: function(resFcsCheckin,resFcsHeaders){
                                                 console.log(resFcsCheckin);
+                                            },
+                                            onFailure: function(err,errheader){
+                                                console.log("FCS CheckIn Error"+err);
                                             }
-                                        })*/
+                                        })
                                     },
                                     onFailure: function(err,errheader){
 
