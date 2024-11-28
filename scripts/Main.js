@@ -192,27 +192,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                         method: "POST",
                                                         headers: myHeaders,
                                                         credentials: "include",
-                                                        data: JSON.stringify({
-                                                            data: [
-                                                                {
-                                                                    dataelements: {
-                                                                        title: title,
-                                                                        description: description,
-                                                                        relateddata: {
-                                                                            files: [
-                                                                                {
-                                                                                    dataelements: {
-                                                                                        title: specFile.name,
-                                                                                        receipt: resFcsCheckin
-                                                                                    },
-                                                                                    updateAction: "CREATE"
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    }
-                                                                }
-                                                            ]
-                                                        }),
+                                                        data: JSON.stringify(DocumentRequestBody),
                                                         timeout: 1500000000000,
                                                         type: "json",
                                                         onComplete: function (res, headerRes) {
