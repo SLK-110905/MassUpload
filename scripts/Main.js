@@ -117,6 +117,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             }
         },
         uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
+            let startTime = Date.now();
             console.log("Inside Upload Specification");
             console.log("Specification Files: ", specFiles);
             const reader = new FileReader();
@@ -125,7 +126,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 const rows = text.split("\n");
                 rows.shift();
                 console.log(rows.length)
-                let responseDrawingMessage = "";
                 for (let line of rows) {
                     console.log("Line: ", line);
                     if (line.trim() != "" || line != undefined) {
@@ -222,7 +222,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 }
             };
             reader.readAsText(excelFile);
-
+            let endTime = Date.now();
+            let elapsedTime = endTime - startTime;
+            let minuteTaken = elapsedTime / (1000 * 60);
+            document.getElementById("status").innerHTML =
+                "<br><p style='color: red;'>Time Taken(Minutes): " + minuteTaken + "</p>";
         },
     };
     widget.myWidget = myWidget;
