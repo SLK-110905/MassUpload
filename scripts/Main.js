@@ -197,6 +197,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 onComplete: function (finalRes, headerRes) {
                                                     console.log("Final Response", finalRes.data);
                                                     document.getElementById("status").innerHTML +=`<br>Specification ${title} uploaded successfully`;
+                                                   
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
@@ -222,11 +223,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 }
             };
             reader.readAsText(excelFile);
-            let endTime = Date.now();
-            let elapsedTime = endTime - startTime;
-            let minuteTaken = elapsedTime / (1000 * 60);
-            document.getElementById("status").innerHTML =
-                "<br><p style='color: red;'>Time Taken(Minutes): " + minuteTaken + "</p>";
         },
     };
     widget.myWidget = myWidget;
