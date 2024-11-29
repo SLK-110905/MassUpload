@@ -122,6 +122,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 const rows = text.split("\n");
                 rows.shift();
                 console.log(rows.length)
+                let responseDrawingMessage = "";
                 for (let line of rows) {
                     console.log("Line: ", line);
                     if (line.trim() != "" || line != undefined) {
@@ -192,23 +193,24 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 type: "json",
                                                 onComplete: function (finalRes, headerRes) {
                                                     console.log("Final Response", finalRes.data);
-                                                    document.getElementById("status").innerHTML ="<br> Response: "+JSON.stringify(finalRes);
+                                                    document.getElementById("status").innerHTML +=`<br>Specification ${title} uploaded successfully`;
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
-                                                    document.getElementById("status").innerHTML =
-                                                        "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                                                    document.getElementById("status").innerHTML +=
+                                                        "<br>Failed to upload Specification: " + JSON.stringify(res);
                                                 },
                                             });
                                         },
                                         onFailure: function (err, errheader) {
-                                            console.log("FCS CheckIn Error" + err);
+                                            document.getElementById("status").innerHTML +=
+                                                "<br>Failed to get fcs ticket: " + JSON.stringify(res);
                                         }
                                     })
                                 },
                                 onFailure(err, errhead) {
                                     console.log(err);
-                                    document.getElementById("status").innerHTML =
+                                    document.getElementById("status").innerHTML +=
                                         "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
                                 },
                             });
