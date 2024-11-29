@@ -15,6 +15,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 if (importType === "specification") {
                     importFileInputsDiv.style.display = "block";
                 }
+                else {
+                    importFileInputsDiv.style.display = "none";
+                }
             });
 
         },
