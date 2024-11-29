@@ -192,7 +192,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 type: "json",
                                                 onComplete: function (finalRes, headerRes) {
                                                     console.log("Final Response", finalRes.data);
-                                                    document.getElementById("status").innerHTML =+JSON.stringify(finalRes);
+                                                    document.getElementById("status").innerHTML ="<br> Response: "+JSON.stringify(finalRes);
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
