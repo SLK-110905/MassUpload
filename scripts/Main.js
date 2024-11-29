@@ -191,7 +191,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 timeout: 1500000000000,
                                                 type: "json",
                                                 onComplete: function (finalRes, headerRes) {
-                                                    console.log("Final Response", finalRes);
+                                                    console.log("Final Response", finalRes.data);
                                                     document.getElementById("status").innerHTML =finalRes;
                                                 },
                                                 onFailure(err, errhead) {
