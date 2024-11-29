@@ -132,7 +132,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         console.log("Title: ", title);
                         console.log("Description: ", description);
                         console.log("SpecFileName: ", specFileName);
+                        
                         let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
+
                         console.log(specFile);
                         if (specFile) {
                             //getting checkinTicket
@@ -151,56 +153,57 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     const formData = new FormData();
                                     formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                     formData.append("file_0", specFile);
-                                            WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
-                                                method: "POST",
-                                                credentials: "include",
-                                                timeout: 150000000,
-                                                headers: myHeaders,
-                                                data: formData,
-                                                onComplete: function (resFcsCheckin, resFcsHeaders) {
-                                                    console.log(resFcsCheckin);
-                                                    const DocumentRequestBody = {
-                                                        "data": [
-                                                            {
-                                                                "dataelements": {
-                                                                    "title": title,
-                                                                    "description": description,
-                                                                },
-                                                                "relateddata": {
-                                                                    "files": [
-                                                                        {
-                                                                            "dataelements": {
-                                                                                "title": specFile.name,
-                                                                                "receipt": resFcsCheckin
-                                                                            },
-                                                                            "updateAction": "CREATE"
-                                                                        }
-                                                                    ]
+                                    WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
+                                        method: "POST",
+                                        credentials: "include",
+                                        timeout: 150000000,
+                                        headers: myHeaders,
+                                        data: formData,
+                                        onComplete: function (resFcsCheckin, resFcsHeaders) {
+                                            console.log(resFcsCheckin);
+                                            const DocumentRequestBody = {
+                                                "data": [
+                                                    {
+                                                        "dataelements": {
+                                                            "title": title,
+                                                            "description": description,
+                                                        },
+                                                        "relateddata": {
+                                                            "files": [
+                                                                {
+                                                                    "dataelements": {
+                                                                        "title": specFile.name,
+                                                                        "receipt": resFcsCheckin
+                                                                    },
+                                                                    "updateAction": "CREATE"
                                                                 }
-                                                            }
-                                                        ]
+                                                            ]
+                                                        }
                                                     }
-                                                    myHeaders["Content-Type"] = "application/json";
-                                                    WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
-                                                        method: "POST",
-                                                        headers: myHeaders,
-                                                        credentials: "include",
-                                                        data: JSON.stringify(DocumentRequestBody),
-                                                        timeout: 1500000000000,
-                                                        type: "json",
-                                                        onComplete: function (res, headerRes) {
-                                                            console.log("Final Response", res);
-                                                        },
-                                                        onFailure(err, errhead) {
-                                                            console.log(err);
-                                                            document.getElementById("status").innerHTML =
-                                                                "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
-                                                        },
-                                                    });
+                                                ]
+                                            }
+                                            myHeaders["Content-Type"] = "application/json";
+                                            WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
+                                                method: "POST",
+                                                headers: myHeaders,
+                                                credentials: "include",
+                                                data: JSON.stringify(DocumentRequestBody),
+                                                timeout: 1500000000000,
+                                                type: "json",
+                                                onComplete: function (res, headerRes) {
+                                                    console.log("Final Response", res);
+                                                    document.getElementById("status").innerHTML =res;
                                                 },
-                                                onFailure: function (err, errheader) {
-                                                    console.log("FCS CheckIn Error" + err);
-                                                }
+                                                onFailure(err, errhead) {
+                                                    console.log(err);
+                                                    document.getElementById("status").innerHTML =
+                                                        "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                                                },
+                                            });
+                                        },
+                                        onFailure: function (err, errheader) {
+                                            console.log("FCS CheckIn Error" + err);
+                                        }
                                     })
                                 },
                                 onFailure(err, errhead) {
