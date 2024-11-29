@@ -197,7 +197,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 onComplete: function (finalRes, headerRes) {
                                                     console.log("Final Response", finalRes.data);
                                                     document.getElementById("status").innerHTML +=`<br>Specification ${title} uploaded successfully`;
-                                                   
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
