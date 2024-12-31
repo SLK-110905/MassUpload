@@ -251,10 +251,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             console.log("Child Part: ", childPart);
                             const searchParentRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,parentPart);
                             const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,childPart);
-                            searchParentRes.then((res)=>{
-                                console.log("Search Result: ",res);
-                                console.log("Res--"+res.member[0]);
-                                if(res.member.length>0 && res.member[0].title===parentPart)
+                            searchParentRes.then((parentRes)=>{
+                                console.log("Search Result: ",parentRes);
+                                console.log("Res--"+parentRes.member[0]);
+                                if(parentRes.member.length>0 && parentRes.member[0].title===parentPart)
                                 {
                                     console.log("Parent Part Found");
                                     searchChildRes.then((reschild)=>{
@@ -282,7 +282,39 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                     ]
                                                 }),
                                                 onComplete: function (expandPartRes, headerRes) {
-                                                    console.log("expandPartRes"+expandPartRes);
+                                                    let parentObjList=expandPartRes.member[0]["dseng:EngInstance"].member;
+                                                    const foundParentId=parentObjList.find((obj)=>obj.parentObject.identifier===parentRes.member[0].id);
+                                                    console.log("Found Parent Id: ",foundParentId);
+                                                    if(!foundParentId)
+                                                    {
+                                                        WAFData.authenticatedRequest(`https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/${parentRes.member[0].id}/dseng:EngInstance`, {
+                                                            method: "POST",
+                                                            headers: myHeaders,
+                                                            credentials: "include",
+                                                            timeout: 150000,
+                                                            type: "json",
+                                                            data:JSON.stringify({
+                                                                "instances": [
+                                                                    {
+                                                                    "referencedObject": {
+                                                                        "source": "https://oi000186152-us1-space.3dexperience.3ds.com/enovia",
+                                                                        "type": "VPMReference",
+                                                                        "identifier": reschild.member[0].id,
+                                                                        "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/"+reschild.member[0].id
+                                                                    }
+                                                                    }
+                                                                ]
+                                                            }),
+                                                            onComplete: function (res, headerRes) {
+                                                                console.log(res);
+                                                                console.log("BOM Updated Successfully");
+                                                            },
+                                                            onFailure(err, errhead) {
+                                                                console.log(err);
+                                                            },
+                                                        });
+                                                    }
+                                                        
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
