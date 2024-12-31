@@ -307,10 +307,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                             }),
                                                             onComplete: function (res, headerRes) {
                                                                 console.log(res);
-                                                                console.log("BOM Updated Successfully");
+                                                                document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} and Child Part ${childPart} added to BOM`;
                                                             },
                                                             onFailure(err, errhead) {
                                                                 console.log(err);
+                                                                document.getElementById("status").innerHTML +=
+                                                                    "<br>Failed to add Parent Part and Child Part to BOM: " + JSON.stringify(res);
                                                             },
                                                         });
                                                     }
@@ -321,8 +323,16 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 },
                                             });
                                         }
+                                        else
+                                        {
+                                            document.getElementById("status").innerHTML +=`<br>Child Part ${childPart} not found`;
+                                        }
                                     }
                                 )
+                                }
+                                else
+                                {
+                                    document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} not found`;
                                 }
                             })
                         }
