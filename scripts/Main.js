@@ -254,14 +254,36 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             searchParentRes.then((res)=>{
                                 console.log("Search Result: ",res);
                                 console.log("Res--"+res.member[0]);
-                                if(res.member.length>0 && res.member[0].title==parentPart)
+                                if(res.member.length>0 && res.member[0].title===parentPart)
                                 {
                                     console.log("Parent Part Found");
                                     searchChildRes.then((reschild)=>{
                                         console.log("Search Result: ",reschild);
-                                        if(reschild.member.length>0 && reschild.member[0].title==childPart)
+                                        if(reschild.member.length>0 && reschild.member[0].title===childPart)
                                         {
-                                            console.log("Child Part Found");
+                                            WAFData.authenticatedRequest(partUrl+"/locate", {
+                                                method: "GET",
+                                                headers: myHeaders,
+                                                credentials: "include",
+                                                timeout: 150000,
+                                                type: "json",
+                                                data:JSON.stringify({
+                                                    "referencedObjects": [
+                                                        {
+                                                            "source": "https://oi000186152-us1-space.3dexperience.3ds.com",
+                                                            "type": "dseng:EngItem",
+                                                            "identifier": reschild.member[0].id,
+                                                            "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/"+reschild.member[0].id
+                                                        }
+                                                    ]
+                                                }),
+                                                onComplete: function (expandPartRes, headerRes) {
+                                                    console.log("expandPartRes"+expandPartRes);
+                                                },
+                                                onFailure(err, errhead) {
+                                                    console.log(err);
+                                                },
+                                            });
                                         }
                                     }
                                 )
