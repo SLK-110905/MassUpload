@@ -249,8 +249,23 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let childPart=bomInfo[1];
                             console.log("Parent Part: ", parentPart);
                             console.log("Child Part: ", childPart);
-                            myWidget.searchItem(csrfTokenName,csrfTokenValue,parentPart);
-                            myWidget.searchItem(csrfTokenName,csrfTokenValue,childPart);
+                            const searchParentRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,parentPart);
+                            const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,childPart);
+                            searchParentRes.then((res)=>{
+                                console.log("Search Result: ",res);
+                                if(res.data.length>0 && res.member[0].title==parentPart)
+                                {
+                                    console.log("Parent Part Found");
+                                    searchChildRes.then((res)=>{
+                                        console.log("Search Result: ",res);
+                                        if(res.data.length>0 && res.member[0].title==childPart)
+                                        {
+                                            console.log("Child Part Found");
+                                        }
+                                    }
+                                )
+                                }
+                            })
                         }
                     }
                 }
@@ -259,6 +274,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         },
         searchItem: function (csrfTokenName,csrfTokenValue,search) {
             console.log("Searching Item");
+            return new Promise((resolve, reject) => {
             const searchUrl = myWidget.searchUrl + search;
             const myHeaders = new Object();
             myHeaders[csrfTokenName] = csrfTokenValue;
@@ -271,14 +287,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 type: "json",
                 onComplete: function (res, headerRes) {
                     console.log(res);
-                    document.getElementById("searchResult").innerHTML = "<br><p>Search Result: " + JSON.stringify(res) + "</p>";
+                    resolve(res);
                 },
                 onFailure(err, errhead) {
                     console.log(err);
-                    document.getElementById("searchResult").innerHTML = "<br>Failed to Search: " + JSON.stringify(res);
+                    reject(err);
                 },
             });
-        },
+        })},
     };
     widget.myWidget = myWidget;
     return myWidget;
