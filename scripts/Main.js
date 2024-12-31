@@ -273,6 +273,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 data:JSON.stringify({
                                                     "referencedObjects": [
                                                         {
+                                                            "source": "https://oi000186152-us1-space.3dexperience.3ds.com/enovia",
                                                             "type": "dseng:EngItem",
                                                             "identifier": reschild.member[0].id,
                                                             "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/"+reschild.member[0].id
