@@ -5,6 +5,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem",
         csrfURL:
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152",
+        searchUrl:
+            "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/search?$searchStr=",
         onLoad: function () {
             document
                 .getElementById("importbtn")
@@ -242,13 +244,41 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     rows.shift();
                     for (let line of rows) {
                         if (line.trim() != "" || line != undefined) {
-                            alert("line: " + line);
+                            let bomInfo = line.split(",");
+                            let parentPart=bomInfo[0];
+                            let childPart=bomInfo[1];
+                            console.log("Parent Part: ", parentPart);
+                            console.log("Child Part: ", childPart);
+                            myWidget.searchItem(csrfTokenName,csrfTokenValue,parentPart);
+                            myWidget.searchItem(csrfTokenName,csrfTokenValue,childPart);
                         }
                     }
                 }
                 reader.readAsText(file);
             }
-        }
+        },
+        searchItem: function (csrfTokenName,csrfTokenValue,search) {
+            console.log("Searching Item");
+            const searchUrl = myWidget.searchUrl + search;
+            const myHeaders = new Object();
+            myHeaders[csrfTokenName] = csrfTokenValue;
+            myHeaders["SecurityContext"] = myWidget.ctx;
+            WAFData.authenticatedRequest(searchUrl, {
+                method: "GET",
+                headers: myHeaders,
+                credentials: "include",
+                timeout: 150000,
+                type: "json",
+                onComplete: function (res, headerRes) {
+                    console.log(res);
+                    document.getElementById("searchResult").innerHTML = "<br><p>Search Result: " + JSON.stringify(res) + "</p>";
+                },
+                onFailure(err, errhead) {
+                    console.log(err);
+                    document.getElementById("searchResult").innerHTML = "<br>Failed to Search: " + JSON.stringify(res);
+                },
+            });
+        },
     };
     widget.myWidget = myWidget;
     return myWidget;
