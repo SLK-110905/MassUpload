@@ -12,6 +12,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
             document.getElementById("importType").addEventListener("change", function () {
+                document.getElementById("status").innerHTML = "";
                 const importType = document.getElementById("importType").value;
                 const importFileInputsDiv = document.getElementById("importFileInputsDiv");
                 if (importType === "specification") {
