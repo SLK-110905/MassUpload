@@ -316,6 +316,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                             },
                                                         });
                                                     }
+                                                    else
+                                                    {
+                                                        document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} and Child Part ${childPart} already in connected`;
+                                                    }
                                                         
                                                 },
                                                 onFailure(err, errhead) {
