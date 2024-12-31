@@ -30,6 +30,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         },
         importItem: function (data) {
             console.log("Data Migrating");
+            document.getElementById("status").innerHTML = "<br><p>Request Processing </p><br><p>Logs:</p>";
             WAFData.authenticatedRequest(myWidget.csrfURL, {
                 method: "Get",
                 timeout: 150000,
