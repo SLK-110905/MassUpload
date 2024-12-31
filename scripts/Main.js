@@ -261,7 +261,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         console.log("Search Result: ",reschild);
                                         if(reschild.member.length>0 && reschild.member[0].title===childPart)
                                         {
-                                            WAFData.authenticatedRequest(partUrl+"/locate", {
+                                            WAFData.authenticatedRequest(myWidget.partUrl+"/locate", {
                                                 method: "GET",
                                                 headers: myHeaders,
                                                 credentials: "include",
