@@ -52,6 +52,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         }
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
+                    else if (importType === "bom") {
+                        const excelFile = document.getElementById("excelFile").files[0];
+                        if (excelFile) {
+                            console.log("Uploading BOM");
+                            myWidget.uploadBOM(csrfTokenName, csrfTokenValue, excelFile)
+                        }
+                        //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
+                    }
                 }
             });
         },
@@ -223,6 +231,24 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             };
             reader.readAsText(excelFile);
         },
+        uploadBOM: function (csrfTokenName, csrfTokenValue, file) {
+            console.log("Importing BOM");
+            if (file) {
+                const reader = new FileReader();
+                let bom = [];
+                reader.onload = function (e) {
+                    const text = e.target.result;
+                    const rows = text.split("\n");
+                    rows.shift();
+                    for (let line of rows) {
+                        if (line.trim() != "" || line != undefined) {
+                            alert("line: " + line);
+                        }
+                    }
+                }
+                reader.readAsText(file);
+            }
+        }
     };
     widget.myWidget = myWidget;
     return myWidget;
