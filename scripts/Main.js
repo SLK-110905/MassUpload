@@ -262,6 +262,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         if(reschild.member.length>0 && reschild.member[0].title===childPart)
                                         {
                                             const myHeaders = new Object();
+                                            myHeaders["Content-Type"] = "application/json";
                                             myHeaders[csrfTokenName] = csrfTokenValue;
                                             myHeaders["SecurityContext"] = myWidget.ctx;
                                             WAFData.authenticatedRequest(myWidget.partUrl+"/locate", {
