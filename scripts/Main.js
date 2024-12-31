@@ -265,7 +265,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                             myHeaders[csrfTokenName] = csrfTokenValue;
                                             myHeaders["SecurityContext"] = myWidget.ctx;
                                             WAFData.authenticatedRequest(myWidget.partUrl+"/locate", {
-                                                method: "GET",
+                                                method: "POST",
                                                 headers: myHeaders,
                                                 credentials: "include",
                                                 timeout: 150000,
