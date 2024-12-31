@@ -253,12 +253,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,childPart);
                             searchParentRes.then((res)=>{
                                 console.log("Search Result: ",res);
-                                if(res.data.length>0 && res.member[0].title==parentPart)
+                                console.log("Res--"+res);
+                                if(res.member.length>0 && searchParentRes==parentPart)
                                 {
                                     console.log("Parent Part Found");
-                                    searchChildRes.then((res)=>{
-                                        console.log("Search Result: ",res);
-                                        if(res.data.length>0 && res.member[0].title==childPart)
+                                    searchChildRes.then((reschild)=>{
+                                        console.log("Search Result: ",reschild);
+                                        if(reschild.member.length>0 && reschild.member[0].title==childPart)
                                         {
                                             console.log("Child Part Found");
                                         }
