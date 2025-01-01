@@ -271,7 +271,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         console.log(reschild.member[0].revision+"=="+childPartRev);
                                         console.log("reschild.member.length--"+reschild.member.length);
 
-                                        if(reschild.member.length>0 && reschild.member[0].title===childPart && reschild.member[0].revision===childPartRev)
+                                        if(reschild.member.length>0 && reschild.member[0].title==childPart && reschild.member[0].revision==childPartRev)
                                         {
                                             console.log("Child Part Found");
                                             const myHeaders = new Object();
