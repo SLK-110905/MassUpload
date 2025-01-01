@@ -252,12 +252,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let childPart=bomInfo[2];
                             let childPartRev=bomInfo[3];
                             console.log("Parent Part: ", parentPart);
+                            console.log("Parent Part Rev: ", parentPartRev);
                             console.log("Child Part: ", childPart);
-                            let searchParentStr=parentPart+"("+parentPartRev+")";
-                            let searchChildPart=childPart+"("+childPartRev+")";
+                            console.log("Child Part Rev: ", childPartRev);
+                            let searchParentStr=parentPart+"(revision:"+parentPartRev+")";
+                            let searchChildPart=childPart+"(revision:"+childPartRev+")";
                             const searchParentRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchParentStr);
                             searchParentRes.then((parentRes)=>{
-                                console.log("Search Result: ",parentRes);
+                                console.log("Search Result Parent: ",parentRes);
                                 console.log("Res--"+parentRes.member[0]);
                                 if(parentRes.member.length>0 && parentRes.member[0].title===parentPart && parentRes.member[0].revision===parentPartRev)
                                 {
@@ -267,6 +269,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         console.log("Search Result: ",reschild);
                                         if(reschild.member.length>0 && reschild.member[0].title===childPart && reschild.member[0].revision===childPartRev)
                                         {
+                                            console.log("Child Part Found");
                                             const myHeaders = new Object();
                                             myHeaders["Content-Type"] = "application/json";
                                             myHeaders[csrfTokenName] = csrfTokenValue;
