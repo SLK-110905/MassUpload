@@ -266,7 +266,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     console.log("Parent Part Found");
                                     const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchChildPart);
                                     searchChildRes.then((reschild)=>{
-                                        console.log("Search Result: ",reschild);
+                                        console.log("Search Result Child: ",reschild);
                                         if(reschild.member.length>0 && reschild.member[0].title===childPart && reschild.member[0].revision===childPartRev)
                                         {
                                             console.log("Child Part Found");
@@ -368,7 +368,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 timeout: 150000,
                 type: "json",
                 onComplete: function (res, headerRes) {
-                    console.log(res);
                     resolve(res);
                 },
                 onFailure(err, errhead) {
