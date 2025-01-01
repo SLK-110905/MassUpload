@@ -256,13 +256,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let searchParentStr=parentPart+"("+parentPartRev+")";
                             let searchChildPart=childPart+"("+childPartRev+")";
                             const searchParentRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchParentStr);
-                            const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchChildPart);
                             searchParentRes.then((parentRes)=>{
                                 console.log("Search Result: ",parentRes);
                                 console.log("Res--"+parentRes.member[0]);
                                 if(parentRes.member.length>0 && parentRes.member[0].title===parentPart && parentRes.member[0].revision===parentPartRev)
                                 {
                                     console.log("Parent Part Found");
+                                    const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchChildPart);
                                     searchChildRes.then((reschild)=>{
                                         console.log("Search Result: ",reschild);
                                         if(reschild.member.length>0 && reschild.member[0].title===childPart && reschild.member[0].revision===childPartRev)
