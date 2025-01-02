@@ -15,11 +15,20 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 document.getElementById("status").innerHTML = "";
                 const importType = document.getElementById("importType").value;
                 const importFileInputsDiv = document.getElementById("importFileInputsDiv");
-                if (importType === "specification") {
-                    importFileInputsDiv.style.display = "block";
-                }
-                else {
+                if(importType==="part")
+                {
                     importFileInputsDiv.style.display = "none";
+                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importPart.csv");
+                }
+                else if(importType==="specification")
+                {
+                    importFileInputsDiv.style.display = "block";
+                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importSpec.csv");
+                }
+                else if(importType==="bom")
+                {
+                    importFileInputsDiv.style.display = "none";
+                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
             });
 
@@ -64,6 +73,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         }
                         //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
                     }
+                    
                 }
             });
         },
