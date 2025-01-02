@@ -16,3 +16,11 @@ h1{
 #status {
     overflow: auto;
 }
+a:hover {
+    color: green; /* Changes color to green when the link is hovered */
+    color: red; /* Changes color to red when the link is hovered */
+}
+
+a:visited {
+    color: purple; /* Changes color after the link has been visited */
+}
