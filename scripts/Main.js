@@ -248,7 +248,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         if (line.trim() != "" || line != undefined) {
                             let bomInfo = line.split(",");
                             let parentPart=bomInfo[0].trim();
-                            let parentPartRev=bomInfo1.trim();
+                            let parentPartRev=bomInfo.trim();
                             let childPart=bomInfo[2].trim();
                             let childPartRev=bomInfo[3].trim();
                             console.log("Parent Part: ", parentPart);
