@@ -17,7 +17,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     let organization=collabspace.name.trim();
                     let couples=collabspace.couples;
                     couples.forEach((couple)=>{
-                        securityContext.push(couple.role.name()+"."+couple.organization.name()+"."+organization);
+                        securityContext.push(couple.role.name+"."+couple.organization.name+"."+organization);
                     })
                 });
                 console.log("Security Context: ",securityContext);
