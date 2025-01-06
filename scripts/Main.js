@@ -11,8 +11,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         onLoad: function () {
             myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
             myWidget.getSecurityContext().then((res)=>{
-                console.log("Res--"+res)
-
+                console.log(JSON.stringify(res));
             });
             document
                 .getElementById("importbtn")
