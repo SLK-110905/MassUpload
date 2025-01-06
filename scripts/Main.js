@@ -35,16 +35,25 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             //myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
             const securityContextPreference=document.getElementById("security-context-preference");
             console.log("Security Context Preference: ",securityContextPreference);
+            let securitycontextpreference = {
+                name: "securitycontext",
+                type: "list",
+                label: "Security Context",
+                options: [],
+                defaultValue: myList[0] ,
+            };
+            widget.addPreference(securitycontextpreference);
             myWidget.getSecurityContext().then((res)=>{
-                let securityContext=[];
                 let collabspaces=res.collabspaces;
                 collabspaces.forEach((collabspace)=>{
                     let organization=collabspace.name.trim();
                     let couples=collabspace.couples;
                     couples.forEach((couple)=>{
-                        const SecurityContext=couple.role.name+"."+couple.organization.name+"."+organization;
-                        securityContext.push(SecurityContext);
+                        const SecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
                         console.log("Security Context: ",SecurityContext);
+                        securitycontextpreference.options.push( {
+                            value : SecurityContextStr,
+                            label : SecurityContextStr } );
                         
                     })
                 });
