@@ -21,6 +21,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const constsecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
                         securityContext.push(constsecurityContextStr);
                         // Set attributes or content for the new element if needed
+                        console.log("Security Context: ",constsecurityContextStr);
+                        console.log("widgwetPreferenceSecurityContext: ",widgetPreferenceSecurityContext);
                         widgetPreferenceSecurityContext.appendChild(`<widget:option value="${constsecurityContextStr}" label="all"></widget:option>`);
                     })
                 });
