@@ -33,8 +33,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 }
             });
             //myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
-            const securityContextPreference=document.getElementById("security-context-preference");
-            console.log("Security Context Preference: ",securityContextPreference);
             let securitycontextpreference = {
                 name: "securitycontext",
                 type: "list",
