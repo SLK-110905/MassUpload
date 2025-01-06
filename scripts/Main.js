@@ -7,7 +7,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152",
         searchUrl:
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/search?$searchStr=",
+        securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         onLoad: function () {
+            myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            myWidget.getSecurityContext().then((res)=>{
+                console.log("Res--"+res)
+
+            });
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
@@ -34,9 +40,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
         },
         updateWidget: function () {
-            document
-                .getElementById("importbtn")
-                .addEventListener("click", this.importItem);
+            alert("Update Widget function called");
         },
         importItem: function (data) {
             console.log("Data Migrating");
@@ -390,6 +394,24 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 },
             });
         })},
+        getSecurityContext: function (csrfTokenName, csrfTokenValue) {
+            console.log("Getting Security Context");
+            return new Promise((resolve, reject) => {
+            WAFData.authenticatedRequest(myWidget.securityContexturl, {
+                method: "Get",
+                timeout: 1500000,
+                type: "json",
+                onComplete: function (res, headerRes) {
+                    console.log("Res--"+res)
+                    resolve(res);
+                },
+                onFailure(err, errhead) {
+                    console.log(err);
+                    reject(err);
+                }
+            });
+        })
+        }
     };
     widget.myWidget = myWidget;
     return myWidget;
