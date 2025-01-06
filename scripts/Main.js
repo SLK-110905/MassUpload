@@ -20,9 +20,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     couples.forEach((couple)=>{
                         const constsecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
                         securityContext.push(constsecurityContextStr);
-                        const newElement = document.createElement(`<widget:option value="${constsecurityContextStr}" label="all"></widget:option>`);
                         // Set attributes or content for the new element if needed
-                        widgetPreferenceSecurityContext.appendChild(newElement);
+                        widgetPreferenceSecurityContext.appendChild(`<widget:option value="${constsecurityContextStr}" label="all"></widget:option>`);
                     })
                 });
                 console.log("Security Context: ",securityContext);
