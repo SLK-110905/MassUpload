@@ -49,7 +49,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const SecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
                         securitycontextpreference.options.push( {
                             value : SecurityContextStr,
-                            label : SecurityContextStr } );
+                            label : SecurityContextStr
+                        });
                         
                     })
                 });
