@@ -58,6 +58,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 console.log("Security Context: ",securityContext);
                 console.log(JSON.stringify(res));
             });
+            widget.addPreference(MyUserPreferenceStruct);
 
         },
         updateWidget: function () {
