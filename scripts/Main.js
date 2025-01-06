@@ -10,14 +10,19 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         onLoad: function () {
             myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            const widgetPreferenceSecurityContext = document.getElementById("securitycontextlistdown");
             myWidget.getSecurityContext().then((res)=>{
-                let securityContext=[];
-                let collabspaces=res.collabspaces;
+                const securityContext=[];
+                const collabspaces=res.collabspaces;
                 collabspaces.forEach((collabspace)=>{
                     let organization=collabspace.name.trim();
-                    let couples=collabspace.couples;
+                    const couples=collabspace.couples;
                     couples.forEach((couple)=>{
-                        securityContext.push(couple.role.name+"."+couple.organization.name+"."+organization);
+                        const constsecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
+                        securityContext.push(constsecurityContextStr);
+                        const newElement = document.createElement(`<widget:preference-option value="${constsecurityContextStr}" label="Choose Security Context"/>`);
+                        // Set attributes or content for the new element if needed
+                        widgetPreferenceSecurityContext.appendChild(newElement);
                     })
                 });
                 console.log("Security Context: ",securityContext);
@@ -51,6 +56,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         updateWidget: function () {
             alert("Update Widget function called");
             myWidget.onLoad();
+            
         },
         importItem: function (data) {
             console.log("Data Migrating");
