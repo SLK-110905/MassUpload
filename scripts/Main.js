@@ -48,14 +48,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     let couples=collabspace.couples;
                     couples.forEach((couple)=>{
                         const SecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
-                        console.log("Security Context: ",SecurityContextStr);
                         securitycontextpreference.options.push( {
                             value : SecurityContextStr,
                             label : SecurityContextStr } );
                         
                     })
                 });
-                console.log("Security Context: ",securityContext);
                 console.log(JSON.stringify(res));
             });
             widget.addPreference(MyUserPreferenceStruct);
