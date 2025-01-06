@@ -10,6 +10,19 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         onLoad: function () {
             myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            myWidget.getSecurityContext().then((res)=>{
+                let securityContext=[];
+                let collabspaces=res.collabspaces;
+                collabspaces.forEach((collabspace)=>{
+                    let organization=collabspace.name.trim();
+                    let couples=collabspace.couples;
+                    couples.forEach((couple)=>{
+                        securityContext.push(couple.role.name+"."+couple.organization.name+"."+organization);
+                    })
+                });
+                console.log("Security Context: ",securityContext);
+                console.log(JSON.stringify(res));
+            });
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
@@ -28,34 +41,15 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importSpec.csv");
                 }
                 else if(importType==="bom")
-                {                   importFileInputsDiv.style.display = "none";
+                {
+                    importFileInputsDiv.style.display = "none";
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
             });
-            const widgetPreferenceSecurityContext = document.getElementById("securitycontextlistdown");
-            myWidget.getSecurityContext().then((res)=>{
-                const securityContext=[];
-                const collabspaces=res.collabspaces;
-                collabspaces.forEach((collabspace)=>{
-                    let organization=collabspace.name.trim();
-                    const couples=collabspace.couples;
-                    couples.forEach((couple)=>{
-                        const constsecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
-                        securityContext.push(constsecurityContextStr);
-                        // Set attributes or content for the new element if needed
-                        console.log("Security Context: ",constsecurityContextStr);
-                        console.log("widgetPreferenceSecurityContext"+widgetPreferenceSecurityContext);
-                        widgetPreferenceSecurityContext.appendChild(`<widget:option value="${constsecurityContextStr}" label="all"></widget:option>`);
-                    })
-                });
-                console.log("Security Context: ",securityContext);
-                console.log(JSON.stringify(res));
-            });
+
         },
         updateWidget: function () {
             alert("Update Widget function called");
-            myWidget.onLoad();
-            
         },
         importItem: function (data) {
             console.log("Data Migrating");
