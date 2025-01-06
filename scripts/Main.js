@@ -40,7 +40,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 options: [],
                 defaultValue: encodeURIComponent(widget.getValue("ctx")),
             };
-            widget.addPreference(securitycontextpreference);
             myWidget.getSecurityContext().then((res)=>{
                 let collabspaces=res.collabspaces;
                 collabspaces.forEach((collabspace)=>{
@@ -56,7 +55,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 });
                 console.log(JSON.stringify(res));
             });
-            widget.addPreference(MyUserPreferenceStruct);
+            widget.addPreference(securitycontextpreference);
 
         },
         updateWidget: function () {
