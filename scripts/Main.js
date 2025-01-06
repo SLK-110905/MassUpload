@@ -11,6 +11,16 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         onLoad: function () {
             myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
             myWidget.getSecurityContext().then((res)=>{
+                let securityContext=[];
+                let collabspaces=res.collabspaces;
+                collabspaces.forEach((collabspace)=>{
+                    let organization=collabspace.name.trim();
+                    let couples=collabspace.couples;
+                    couples.forEach((couple)=>{
+                        securityContext.push(couple.role.name()+"."+couple.organization.name()+"."+organization);
+                    })
+                });
+                console.log("Security Context: ",securityContext);
                 console.log(JSON.stringify(res));
             });
             document
