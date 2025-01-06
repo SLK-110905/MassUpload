@@ -22,7 +22,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         securityContext.push(constsecurityContextStr);
                         // Set attributes or content for the new element if needed
                         console.log("Security Context: ",constsecurityContextStr);
-                        console.log("widgwetPreferenceSecurityContext: ",widgetPreferenceSecurityContext);
+                        console.log("widgetPreferenceSecurityContext: ",widgetPreferenceSecurityContext);
                         widgetPreferenceSecurityContext.appendChild(`<widget:option value="${constsecurityContextStr}" label="all"></widget:option>`);
                     })
                 });
@@ -47,8 +47,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importSpec.csv");
                 }
                 else if(importType==="bom")
-                {
-                    importFileInputsDiv.style.display = "none";
+                {                   importFileInputsDiv.style.display = "none";
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
             });
