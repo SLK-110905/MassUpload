@@ -32,13 +32,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
             });
-            //myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            console.log(encodeURIComponent(widget.getValue("ctx")));
             let securitycontextpreference = {
                 name: "securitycontext",
                 type: "list",
                 label: "Security Context",
                 options: [],
-                defaultValue: myList[0] ,
+                defaultValue: encodeURIComponent(widget.getValue("ctx")),
             };
             widget.addPreference(securitycontextpreference);
             myWidget.getSecurityContext().then((res)=>{
