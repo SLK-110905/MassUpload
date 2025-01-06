@@ -9,20 +9,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/search?$searchStr=",
         securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         onLoad: function () {
-            myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
-            myWidget.getSecurityContext().then((res)=>{
-                let securityContext=[];
-                let collabspaces=res.collabspaces;
-                collabspaces.forEach((collabspace)=>{
-                    let organization=collabspace.name.trim();
-                    let couples=collabspace.couples;
-                    couples.forEach((couple)=>{
-                        securityContext.push(couple.role.name+"."+couple.organization.name+"."+organization);
-                    })
-                });
-                console.log("Security Context: ",securityContext);
-                console.log(JSON.stringify(res));
-            });
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
@@ -45,6 +31,20 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     importFileInputsDiv.style.display = "none";
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
+            });
+            //myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            myWidget.getSecurityContext().then((res)=>{
+                let securityContext=[];
+                let collabspaces=res.collabspaces;
+                collabspaces.forEach((collabspace)=>{
+                    let organization=collabspace.name.trim();
+                    let couples=collabspace.couples;
+                    couples.forEach((couple)=>{
+                        securityContext.push(couple.role.name+"."+couple.organization.name+"."+organization);
+                    })
+                });
+                console.log("Security Context: ",securityContext);
+                console.log(JSON.stringify(res));
             });
 
         },
