@@ -33,6 +33,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 }
             });
             //myWidget.ctx=encodeURIComponent(widget.getValue("ctx"));
+            const securityContextPreference=document.getElementById("security-ontext-preference");
+            console.log("Security Context Preference: ",securityContextPreference);
             myWidget.getSecurityContext().then((res)=>{
                 let securityContext=[];
                 let collabspaces=res.collabspaces;
@@ -43,6 +45,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const SecurityContext=couple.role.name+"."+couple.organization.name+"."+organization;
                         securityContext.push(SecurityContext);
                         console.log("Security Context: ",SecurityContext);
+                        
                     })
                 });
                 console.log("Security Context: ",securityContext);
