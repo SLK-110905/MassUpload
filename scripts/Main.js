@@ -510,12 +510,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
         },
         revisePart: function (csrfTokenName, csrfTokenValue, payload) {
+            console.log("Revise Part Method Called Payload is: --"+payload);
             return new Promise((resolve, reject) => {
                 const myHeaders = new Object();
                 myHeaders[csrfTokenName] = csrfTokenValue;
                 myHeaders["SecurityContext"] = myWidget.ctx;
                 WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
-                    method: "PUT",
+                    method: "POST",
                     headers: myHeaders,
                     data: JSON.stringify({
                         "data": payload,
