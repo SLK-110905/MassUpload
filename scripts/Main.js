@@ -545,7 +545,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         createPart: function (csrfTokenName, csrfTokenValue, payload) {
             const myHeaders = new Object();
             myHeaders[csrfTokenName] = csrfTokenValue;
-            myHeaders[securityContextHeader] = myWidget.ctx;
+            myHeaders["SecurityContext"] = myWidget.ctx;
             myHeaders["Content-Type"] = "application/json";
             let startTime = Date.now();
             WAFData.authenticatedRequest(myWidget.partUrl, {
