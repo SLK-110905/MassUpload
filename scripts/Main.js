@@ -458,7 +458,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         console.log("IF Search Result" + JSON.stringify(searchResponse));
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
                                         revisePartPayload.push({
-                                            "physicalid": res.member[0].id,
+                                            "physicalid": searchResponse.member[0].id,
                                             "modifiedAttributes": {
                                                 "revision": PartRev.trim()
                                             },
@@ -485,6 +485,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const requestBodyPayload = {
                         items: createPartPayload,
                     };
+                    //Revising Part.
+                    console.log("Revise Part Payload", revisePartPayload);
                     const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
                     revisePart.then((res) => {
                         console.log(res);
@@ -492,6 +494,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     }).catch((err) => {
                         console.log(err);
                     });
+                    //Creating Part.
+                    console.log("Create Part Payload", createPartPayload);
                     const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
                     createPart.then((res) => {
                         console.log(res);
