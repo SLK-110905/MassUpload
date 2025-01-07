@@ -451,8 +451,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let PartRev = part[2].trim();
                             const searchRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, partName + "(revision:AA)");
                             searchRes.then((res) => {
-                                if (res.member.length > 0 && res.member[0].title === partName && res.member[0].revision === PartRev) {
-                                    console.log("Search Result"+JSON.stringify(res));
+                                console.log("Search Result"+JSON.stringify(res));
+                                if (res.member.length > 0 && res.member[0].title.trim() === partName.trim() && res.member[0].revision.trim() === PartRev.trim()) {
+                                    console.log("IF Search Result"+JSON.stringify(res));
                                     const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
                                     revisePart.then((res) => {
                                         console.log(res);
