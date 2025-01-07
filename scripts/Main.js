@@ -444,38 +444,61 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const rows = text.split("\n");
                     rows.shift();
                     let revisePartPayload = [];
+                    let createPartPayload = [];
                     for (let line of rows) {
                         if (line.trim() != "" || line != undefined) {
                             let part = line.split(",");
                             let partName = part[1].trim();
                             let PartRev = part[2].trim();
-                            const searchRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, partName + "(revision:AA)");
-                            searchRes.then((res) => {
-                                console.log("Search Result"+JSON.stringify(res));
-                                if (res.member.length > 0 && res.member[0].title.trim() === partName.trim() && res.member[0].revision.trim() ==='AA') {
-                                    console.log("IF Search Result"+JSON.stringify(res));
-                                    const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
-                                    revisePart.then((res) => {
-                                        console.log(res);
-                                        document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
-                                    }).catch((err) => {
-                                        console.log(err);
-                                    });
-                                    document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
-                                    revisePartPayload.push({
-                                        "physicalid": res.member[0].id,
-                                        "modifiedAttributes": {
-                                            "revision": part[2].trim()
-                                        },
-                                        "proposedRevision": part[2].trim()
-                                    });
-                                }
-                                else {
-                                    document.getElementById("status").innerHTML += `<br>Part ${partName} not found`;
-                                }
-                            });
+                            if (PartRev !== 'AA') {
+                                const searchRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, partName + "(revision:AA)");
+                                searchRes.then((searchResponse) => {
+                                    console.log("Search Result" + JSON.stringify(searchResponse));
+                                    if (searchResponse.member.length > 0 && searchResponse.member[0].title.trim() === partName.trim() && searchResponse.member[0].revision.trim() === 'AA') {
+                                        console.log("IF Search Result" + JSON.stringify(res));
+                                        document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
+                                        revisePartPayload.push({
+                                            "physicalid": res.member[0].id,
+                                            "modifiedAttributes": {
+                                                "revision": PartRev.trim()
+                                            },
+                                            "proposedRevision": PartRev.trim()
+                                        });
+                                    }
+                                    else {
+                                        document.getElementById("status").innerHTML += `<br>Part ${partName} revision: AA not found`;
+                                    }
+                                });
+                            }
+                            else {
+                                createPartPayload.push({
+                                    type: part[0],
+                                    attributes: {
+                                        title: part[1],
+                                        isManufacturable: part[3].toLowerCase() === "true",
+                                        description: part[4],
+                                    },
+                                });
+                            }
                         };
                     }
+                    const requestBodyPayload = {
+                        items: createPartPayload,
+                    };
+                    const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
+                    revisePart.then((res) => {
+                        console.log(res);
+                        document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                    const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
+                    createPart.then((res) => {
+                        console.log(res);
+                        document.getElementById("status").innerHTML += `<br>Part ${createPartPayload} Created Successfully`;
+                    }).catch((err) => {
+                        console.log(err);
+                    });
 
                 }
                 reader.readAsText(file);
@@ -510,11 +533,39 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     onFailure: (err, errheader) => {
                         reject(err);
                         document.getElementById("status").innerHTML +=
-                            "<br>Failed to revise Part: " + JSON.stringify(res);
+                            "<br>Failed to revise Part: " + JSON.stringify(err);
                     }
                 });
             });
-        }
+        },
+        createPart: function (csrfTokenName, csrfTokenValue, payload) {
+            const myHeaders = new Object();
+            myHeaders[csrfTokenName] = csrfTokenValue;
+            myHeaders[securityContextHeader] = myWidget.ctx;
+            myHeaders["Content-Type"] = "application/json";
+            let startTime = Date.now();
+            WAFData.authenticatedRequest(myWidget.partUrl, {
+                method: "POST",
+                headers: myHeaders,
+                credentials: "include",
+                data: JSON.stringify(requestBody),
+                timeout: 1500000000,
+                type: "json",
+                onComplete: function (res, headerRes) {
+                    let endTime = Date.now();
+                    let elapsedTime = endTime - startTime;
+                    let minuteTaken = elapsedTime / (1000 * 60);
+                    console.log("response", res);
+                    document.getElementById("status").innerHTML =
+                        "<br><p style='color: red;'>Time Taken(Minutes): " + minuteTaken + "</p><p>Response : " + JSON.stringify(res) + "</p>";
+                },
+                onFailure(err, errhead) {
+                    console.log(err);
+                    document.getElementById("status").innerHTML =
+                        "<br>Failed to Upload: " + JSON.stringify(res);
+                },
+            });
+        },
     };
     widget.myWidget = myWidget;
     return myWidget;
