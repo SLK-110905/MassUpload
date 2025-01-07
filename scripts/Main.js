@@ -485,9 +485,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const requestBodyPayload = {
                         items: createPartPayload,
                     };
+                    console.log("Revise Part Payload", revisePartPayload);
                     if (revisePartPayload.length > 0) {
                         //Revising Part.
-                        console.log("Revise Part Payload", revisePartPayload);
+                        
                         const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
                         revisePart.then((res) => {
                             console.log(res);
@@ -496,9 +497,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             console.log(err);
                         });
                     }
+                    
+                    console.log("Create Part Payload", createPartPayload);
                     //Creating Part.
                     if (createPartPayload.length > 0) {
-                        console.log("Create Part Payload", createPartPayload);
                         const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
                         createPart.then((res) => {
                             console.log(res);
