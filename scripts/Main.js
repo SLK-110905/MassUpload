@@ -8,6 +8,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         searchUrl:
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/search?$searchStr=",
         securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
+        partwithRevisionUrl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
             document
                 .getElementById("importbtn")
@@ -30,6 +31,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 {
                     importFileInputsDiv.style.display = "none";
                     document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
+                }
+                else if(importType==="partrev")
+                {
+                    importFileInputsDiv.style.display = "none";
+                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/partRev.csv");
                 }
             });
             console.log(encodeURIComponent(widget.getValue("ctx")));
@@ -95,7 +101,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             console.log("Uploading BOM");
                             myWidget.uploadBOM(csrfTokenName, csrfTokenValue, excelFile)
                         }
-                        //myWidget.uploadSpecification(csrfTokenName,csrfTokenValue,files)
+                    }
+                    else if (importType === "partrev") {
+                        const excelFile = document.getElementById("excelFile").files[0];
+                        if (excelFile) {
+                            console.log("Uploading Part Revision");
+                            myWidget.uploadPartWithRevision(csrfTokenName, csrfTokenValue, excelFile)
+                        }
                     }
                     
                 }
@@ -431,6 +443,86 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 }
             });
         })
+        },
+        uploadPartWithRevision: function (csrfTokenName, csrfTokenValue, file) {
+            console.log("Importing PartWithRevision");
+            if(file)
+            {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const text = e.target.result;
+                    const rows = text.split("\n");
+                    rows.shift();
+                    let revisePartPayload=[];
+                    for (let line of rows) {
+                        if (line.trim() != "" || line != undefined) {
+                            let part = line.split(",");
+                            let partName=part[1].trim();
+                            let PartRev=part[2].trim();
+                            const searchRes=widget.searchItem(csrfTokenName,csrfTokenValue,partName+"(revision:"+PartRev+")");
+                            searchRes.then((res)=>{
+                                if(res.member.length>0 && res.member[0].title===partName && res.member[0].revision===PartRev)
+                                {
+                                    document.getElementById("status").innerHTML +=`<br>Part ${partName} found`;
+                                    revisePartPayload.push({
+                                        "physicalid": res.member[0].id,
+                                        "modifiedAttributes": {
+                                        "revision": part[2].trim()
+                                        },
+                                        "proposedRevision": part[2].trim()
+                                    });
+                                }
+                                else
+                                {
+                                    document.getElementById("status").innerHTML +=`<br>Part ${partName} not found`;
+                                }
+                            });
+                        };
+                        }
+                        const revisePart=myWidget.revisePart(csrfTokenName,csrfTokenValue,revisePartPayload);
+                        revisePart.then((res)=>{
+                            console.log(res);
+                            document.getElementById("status").innerHTML +=`<br>Part ${revisePartPayload} Revision Updated Successfully`;
+                        }).catch((err)=>{
+                            console.log(err);
+                        });
+                    }
+                reader.readAsText(file);
+            }
+
+        },
+        revisePart: function (csrfTokenName, csrfTokenValue, payload) {
+            return new Promise((resolve, reject) => {
+            const myHeaders = new Object();
+                        myHeaders[csrfTokenName] = csrfTokenValue;
+                        myHeaders["SecurityContext"] = myWidget.ctx;
+                        WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
+                            method: "POST",
+                            headers: myHeaders,
+                            data: JSON.stringify({
+                                    "data": payload,
+                                    "folderid": null,
+                                    "notificationTimeout": 600,
+                                    "metrics": {
+                                        "UXName": "Revise",
+                                        "client_app_domain": "3DEXPERIENCE 3DDashboard",
+                                        "client_app_name": "ENXENG_AP"
+                                    }
+
+                            }),
+                            credentials: "include",
+                            timeout: 150000,
+                            type: "json",
+                            onComplete: (res, headerRes) => {
+                                resolve(res);
+                            },
+                            onFailure:(err, errheader)=> {
+                                reject(err);
+                                document.getElementById("status").innerHTML +=
+                                    "<br>Failed to revise Part: " + JSON.stringify(res);
+                            }
+                        });
+                    });
         }
     };
     widget.myWidget = myWidget;
