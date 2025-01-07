@@ -552,7 +552,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 method: "POST",
                 headers: myHeaders,
                 credentials: "include",
-                data: JSON.stringify(requestBody),
+                data: JSON.stringify(payload),
                 timeout: 1500000000,
                 type: "json",
                 onComplete: function (res, headerRes) {
