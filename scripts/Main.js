@@ -457,12 +457,19 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     if (searchResponse.member.length > 0 && searchResponse.member[0].title.trim() === partName.trim() && searchResponse.member[0].revision.trim() === 'AA') {
                                         console.log("IF Search Result" + JSON.stringify(searchResponse));
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
-                                        revisePartPayload.push({
+                                        const revisePayload=[{
                                             "physicalid": searchResponse.member[0].id,
                                             "modifiedAttributes": {
                                                 "revision": PartRev.trim()
                                             },
                                             "proposedRevision": PartRev.trim()
+                                        }];
+                                        const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePayload);
+                                        revisePart.then((res) => {
+                                            console.log(res);
+                                            document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has been created Successfully`;
+                                        }).catch((err) => {
+                                            console.log(err);
                                         });
                                     }
                                     else {
@@ -475,8 +482,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     type: part[0],
                                     attributes: {
                                         title: part[1],
-                                        isManufacturable: part[3].toLowerCase() === "true",
-                                        description: part[4],
+                                        isManufacturable: part[2].toLowerCase() === "true",
+                                        description: part[3],
                                     },
                                 });
                             }
@@ -485,19 +492,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const requestBodyPayload = {
                         items: createPartPayload,
                     };
-                    console.log("Revise Part Payload", revisePartPayload);
-                    if (revisePartPayload.length > 0) {
-                        //Revising Part.
-                        
-                        const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
-                        revisePart.then((res) => {
-                            console.log(res);
-                            document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
-                        }).catch((err) => {
-                            console.log(err);
-                        });
-                    }
-                    
                     console.log("Create Part Payload", createPartPayload);
                     //Creating Part.
                     if (createPartPayload.length > 0) {
