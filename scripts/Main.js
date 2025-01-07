@@ -7,8 +7,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/application/CSRF?tenant=OI000186152",
         searchUrl:
             "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/search?$searchStr=",
-        securityContexturl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
-        partwithRevisionUrl:"https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
+        securityContexturl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
+        partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
             document
                 .getElementById("importbtn")
@@ -17,25 +17,21 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 document.getElementById("status").innerHTML = "";
                 const importType = document.getElementById("importType").value;
                 const importFileInputsDiv = document.getElementById("importFileInputsDiv");
-                if(importType==="part")
-                {
+                if (importType === "part") {
                     importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importPart.csv");
+                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPart.csv");
                 }
-                else if(importType==="specification")
-                {
+                else if (importType === "specification") {
                     importFileInputsDiv.style.display = "block";
-                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/importSpec.csv");
+                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importSpec.csv");
                 }
-                else if(importType==="bom")
-                {
+                else if (importType === "bom") {
                     importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/ebom.csv");
+                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/ebom.csv");
                 }
-                else if(importType==="partrev")
-                {
+                else if (importType === "partrev") {
                     importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href","https://slk-110905.github.io/MassUpload/partRev.csv");
+                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
                 }
             });
             console.log(encodeURIComponent(widget.getValue("ctx")));
@@ -46,18 +42,18 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 options: [],
                 defaultValue: encodeURIComponent(widget.getValue("ctx")),
             };
-            myWidget.getSecurityContext().then((res)=>{
-                let collabspaces=res.collabspaces;
-                collabspaces.forEach((collabspace)=>{
-                    let organization=collabspace.name.trim();
-                    let couples=collabspace.couples;
-                    couples.forEach((couple)=>{
-                        const SecurityContextStr=couple.role.name+"."+couple.organization.name+"."+organization;
-                        securitycontextpreference.options.push( {
-                            value : SecurityContextStr,
-                            label : SecurityContextStr
+            myWidget.getSecurityContext().then((res) => {
+                let collabspaces = res.collabspaces;
+                collabspaces.forEach((collabspace) => {
+                    let organization = collabspace.name.trim();
+                    let couples = collabspace.couples;
+                    couples.forEach((couple) => {
+                        const SecurityContextStr = couple.role.name + "." + couple.organization.name + "." + organization;
+                        securitycontextpreference.options.push({
+                            value: SecurityContextStr,
+                            label: SecurityContextStr
                         });
-                        
+
                     })
                 });
                 console.log(JSON.stringify(res));
@@ -109,7 +105,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             myWidget.uploadPartWithRevision(csrfTokenName, csrfTokenValue, excelFile)
                         }
                     }
-                    
+
                 }
             });
         },
@@ -194,7 +190,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         console.log("Title: ", title);
                         console.log("Description: ", description);
                         console.log("SpecFileName: ", specFileName);
-                        
+
                         let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
 
                         console.log(specFile);
@@ -254,7 +250,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                 type: "json",
                                                 onComplete: function (finalRes, headerRes) {
                                                     console.log("Final Response", finalRes.data);
-                                                    document.getElementById("status").innerHTML +=`<br>Specification ${title} uploaded successfully`;
+                                                    document.getElementById("status").innerHTML += `<br>Specification ${title} uploaded successfully`;
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
@@ -293,80 +289,77 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     for (let line of rows) {
                         if (line.trim() != "" || line != undefined) {
                             let bomInfo = line.split(",");
-                            let parentPart=bomInfo[0].trim();
-                            let parentPartRev=bomInfo[1].trim();
-                            let childPart=bomInfo[2].trim();
-                            let childPartRev=bomInfo[3].trim();
+                            let parentPart = bomInfo[0].trim();
+                            let parentPartRev = bomInfo[1].trim();
+                            let childPart = bomInfo[2].trim();
+                            let childPartRev = bomInfo[3].trim();
                             console.log("Parent Part: ", parentPart);
                             console.log("Parent Part Rev: ", parentPartRev);
                             console.log("Child Part: ", childPart);
                             console.log("Child Part Rev: ", childPartRev);
-                            let searchParentStr=parentPart+"(revision:"+parentPartRev+")";
-                            let searchChildPart=childPart+"(revision:"+childPartRev+")";
-                            const searchParentRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchParentStr);
-                            searchParentRes.then((parentRes)=>{
-                                console.log("Search Result Parent: ",parentRes);
-                                console.log("Res--"+parentRes.member[0]);
-                                if(parentRes.member.length>0 && parentRes.member[0].title===parentPart && parentRes.member[0].revision===parentPartRev)
-                                {
+                            let searchParentStr = parentPart + "(revision:" + parentPartRev + ")";
+                            let searchChildPart = childPart + "(revision:" + childPartRev + ")";
+                            const searchParentRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, searchParentStr);
+                            searchParentRes.then((parentRes) => {
+                                console.log("Search Result Parent: ", parentRes);
+                                console.log("Res--" + parentRes.member[0]);
+                                if (parentRes.member.length > 0 && parentRes.member[0].title === parentPart && parentRes.member[0].revision === parentPartRev) {
                                     console.log("Parent Part Found");
-                                    const searchChildRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,searchChildPart);
-                                    searchChildRes.then((reschild)=>{
-                                        console.log("Search Result Child: ",reschild);
-                                        console.log(reschild.member[0].title+"=="+childPart);
-                                        console.log(reschild.member[0].revision+"=="+childPartRev);
-                                        console.log("reschild.member.length--"+reschild.member.length);
+                                    const searchChildRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, searchChildPart);
+                                    searchChildRes.then((reschild) => {
+                                        console.log("Search Result Child: ", reschild);
+                                        console.log(reschild.member[0].title + "==" + childPart);
+                                        console.log(reschild.member[0].revision + "==" + childPartRev);
+                                        console.log("reschild.member.length--" + reschild.member.length);
 
-                                        if(reschild.member.length>0 && reschild.member[0].title.trim()==childPart.trim() && reschild.member[0].revision.trim()==childPartRev.trim())
-                                        {
+                                        if (reschild.member.length > 0 && reschild.member[0].title.trim() == childPart.trim() && reschild.member[0].revision.trim() == childPartRev.trim()) {
                                             console.log("Child Part Found");
                                             const myHeaders = new Object();
                                             myHeaders["Content-Type"] = "application/json";
                                             myHeaders[csrfTokenName] = csrfTokenValue;
                                             myHeaders["SecurityContext"] = myWidget.ctx;
-                                            WAFData.authenticatedRequest(myWidget.partUrl+"/locate", {
+                                            WAFData.authenticatedRequest(myWidget.partUrl + "/locate", {
                                                 method: "POST",
                                                 headers: myHeaders,
                                                 credentials: "include",
                                                 timeout: 150000,
                                                 type: "json",
-                                                data:JSON.stringify({
+                                                data: JSON.stringify({
                                                     "referencedObjects": [
                                                         {
                                                             "source": "https://oi000186152-us1-space.3dexperience.3ds.com/enovia",
                                                             "type": "dseng:EngItem",
                                                             "identifier": reschild.member[0].id,
-                                                            "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/"+reschild.member[0].id
+                                                            "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/" + reschild.member[0].id
                                                         }
                                                     ]
                                                 }),
                                                 onComplete: function (expandPartRes, headerRes) {
-                                                    let parentObjList=expandPartRes.member[0]["dseng:EngInstance"].member;
-                                                    const foundParentId=parentObjList.find((obj)=>obj.parentObject.identifier===parentRes.member[0].id);
-                                                    console.log("Found Parent Id: ",foundParentId);
-                                                    if(!foundParentId)
-                                                    {
+                                                    let parentObjList = expandPartRes.member[0]["dseng:EngInstance"].member;
+                                                    const foundParentId = parentObjList.find((obj) => obj.parentObject.identifier === parentRes.member[0].id);
+                                                    console.log("Found Parent Id: ", foundParentId);
+                                                    if (!foundParentId) {
                                                         WAFData.authenticatedRequest(`https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/dseng/dseng:EngItem/${parentRes.member[0].id}/dseng:EngInstance`, {
                                                             method: "POST",
                                                             headers: myHeaders,
                                                             credentials: "include",
                                                             timeout: 150000,
                                                             type: "json",
-                                                            data:JSON.stringify({
+                                                            data: JSON.stringify({
                                                                 "instances": [
                                                                     {
-                                                                    "referencedObject": {
-                                                                        "source": "https://oi000186152-us1-space.3dexperience.3ds.com/enovia",
-                                                                        "type": "VPMReference",
-                                                                        "identifier": reschild.member[0].id,
-                                                                        "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/"+reschild.member[0].id
-                                                                    }
+                                                                        "referencedObject": {
+                                                                            "source": "https://oi000186152-us1-space.3dexperience.3ds.com/enovia",
+                                                                            "type": "VPMReference",
+                                                                            "identifier": reschild.member[0].id,
+                                                                            "relativePath": "/resources/v1/modeler/dseng/dseng:EngItem/" + reschild.member[0].id
+                                                                        }
                                                                     }
                                                                 ]
                                                             }),
                                                             onComplete: function (res, headerRes) {
                                                                 console.log(res);
-                                                                document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} and Child Part ${childPart} added to BOM`;
+                                                                document.getElementById("status").innerHTML += `<br>Parent Part ${parentPart} and Child Part ${childPart} added to BOM`;
                                                             },
                                                             onFailure(err, errhead) {
                                                                 console.log(err);
@@ -375,27 +368,24 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                                             },
                                                         });
                                                     }
-                                                    else
-                                                    {
-                                                        document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} and Child Part ${childPart} already in connected`;
+                                                    else {
+                                                        document.getElementById("status").innerHTML += `<br>Parent Part ${parentPart} and Child Part ${childPart} already in connected`;
                                                     }
-                                                        
+
                                                 },
                                                 onFailure(err, errhead) {
                                                     console.log(err);
                                                 },
                                             });
                                         }
-                                        else
-                                        {
-                                            document.getElementById("status").innerHTML +=`<br>Child Part ${childPart} not found`;
+                                        else {
+                                            document.getElementById("status").innerHTML += `<br>Child Part ${childPart} not found`;
                                         }
                                     }
-                                )
+                                    )
                                 }
-                                else
-                                {
-                                    document.getElementById("status").innerHTML +=`<br>Parent Part ${parentPart} not found`;
+                                else {
+                                    document.getElementById("status").innerHTML += `<br>Parent Part ${parentPart} not found`;
                                 }
                             })
                         }
@@ -404,125 +394,124 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 reader.readAsText(file);
             }
         },
-        searchItem: function (csrfTokenName,csrfTokenValue,search) {
+        searchItem: function (csrfTokenName, csrfTokenValue, search) {
             console.log("Searching Item");
             return new Promise((resolve, reject) => {
-            const searchUrl = myWidget.searchUrl + search;
-            const myHeaders = new Object();
-            myHeaders[csrfTokenName] = csrfTokenValue;
-            myHeaders["SecurityContext"] = myWidget.ctx;
-            WAFData.authenticatedRequest(searchUrl, {
-                method: "GET",
-                headers: myHeaders,
-                credentials: "include",
-                timeout: 150000,
-                type: "json",
-                onComplete: function (res, headerRes) {
-                    resolve(res);
-                },
-                onFailure(err, errhead) {
-                    console.log(err);
-                    reject(err);
-                },
-            });
-        })},
+                const searchUrl = myWidget.searchUrl + search;
+                const myHeaders = new Object();
+                myHeaders[csrfTokenName] = csrfTokenValue;
+                myHeaders["SecurityContext"] = myWidget.ctx;
+                WAFData.authenticatedRequest(searchUrl, {
+                    method: "GET",
+                    headers: myHeaders,
+                    credentials: "include",
+                    timeout: 150000,
+                    type: "json",
+                    onComplete: function (res, headerRes) {
+                        resolve(res);
+                    },
+                    onFailure(err, errhead) {
+                        console.log(err);
+                        reject(err);
+                    },
+                });
+            })
+        },
         getSecurityContext: function (csrfTokenName, csrfTokenValue) {
             console.log("Getting Security Context");
             return new Promise((resolve, reject) => {
-            WAFData.authenticatedRequest(myWidget.securityContexturl, {
-                method: "Get",
-                timeout: 1500000,
-                type: "json",
-                onComplete: function (res, headerRes) {
-                    console.log("Res--"+res)
-                    resolve(res);
-                },
-                onFailure(err, errhead) {
-                    console.log(err);
-                    reject(err);
-                }
-            });
-        })
+                WAFData.authenticatedRequest(myWidget.securityContexturl, {
+                    method: "Get",
+                    timeout: 1500000,
+                    type: "json",
+                    onComplete: function (res, headerRes) {
+                        console.log("Res--" + res)
+                        resolve(res);
+                    },
+                    onFailure(err, errhead) {
+                        console.log(err);
+                        reject(err);
+                    }
+                });
+            })
         },
         uploadPartWithRevision: function (csrfTokenName, csrfTokenValue, file) {
             console.log("Importing PartWithRevision");
-            if(file)
-            {
+            if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const text = e.target.result;
                     const rows = text.split("\n");
                     rows.shift();
-                    let revisePartPayload=[];
+                    let revisePartPayload = [];
                     for (let line of rows) {
                         if (line.trim() != "" || line != undefined) {
                             let part = line.split(",");
-                            let partName=part[1].trim();
-                            let PartRev=part[2].trim();
-                            const searchRes=myWidget.searchItem(csrfTokenName,csrfTokenValue,partName+"(revision:AA)");
-                            searchRes.then((res)=>{
-                                if(res.member.length>0 && res.member[0].title===partName && res.member[0].revision===PartRev)
-                                {
-                                    document.getElementById("status").innerHTML +=`<br>Part ${partName} found`;
+                            let partName = part[1].trim();
+                            let PartRev = part[2].trim();
+                            const searchRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, partName + "(revision:AA)");
+                            searchRes.then((res) => {
+                                if (res.member.length > 0 && res.member[0].title === partName && res.member[0].revision === PartRev) {
+                                    const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
+                                    revisePart.then((res) => {
+                                        console.log(res);
+                                        document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
+                                    }).catch((err) => {
+                                        console.log(err);
+                                    });
+                                    document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
                                     revisePartPayload.push({
                                         "physicalid": res.member[0].id,
                                         "modifiedAttributes": {
-                                        "revision": part[2].trim()
+                                            "revision": part[2].trim()
                                         },
                                         "proposedRevision": part[2].trim()
                                     });
                                 }
-                                else
-                                {
-                                    document.getElementById("status").innerHTML +=`<br>Part ${partName} not found`;
+                                else {
+                                    document.getElementById("status").innerHTML += `<br>Part ${partName} not found`;
                                 }
                             });
                         };
-                        }
-                        const revisePart=myWidget.revisePart(csrfTokenName,csrfTokenValue,revisePartPayload);
-                        revisePart.then((res)=>{
-                            console.log(res);
-                            document.getElementById("status").innerHTML +=`<br>Part ${revisePartPayload} Revision Updated Successfully`;
-                        }).catch((err)=>{
-                            console.log(err);
-                        });
                     }
+
+                }
                 reader.readAsText(file);
             }
 
         },
         revisePart: function (csrfTokenName, csrfTokenValue, payload) {
             return new Promise((resolve, reject) => {
-            const myHeaders = new Object();
-                        myHeaders[csrfTokenName] = csrfTokenValue;
-                        myHeaders["SecurityContext"] = myWidget.ctx;
-                        WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
-                            method: "POST",
-                            headers: myHeaders,
-                            data: JSON.stringify({
-                                    "data": payload,
-                                    "folderid": null,
-                                    "notificationTimeout": 600,
-                                    "metrics": {
-                                        "UXName": "Revise",
-                                        "client_app_domain": "3DEXPERIENCE 3DDashboard",
-                                        "client_app_name": "ENXENG_AP"
-                                    }
+                const myHeaders = new Object();
+                myHeaders[csrfTokenName] = csrfTokenValue;
+                myHeaders["SecurityContext"] = myWidget.ctx;
+                WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
+                    method: "POST",
+                    headers: myHeaders,
+                    data: JSON.stringify({
+                        "data": payload,
+                        "folderid": null,
+                        "notificationTimeout": 600,
+                        "metrics": {
+                            "UXName": "Revise",
+                            "client_app_domain": "3DEXPERIENCE 3DDashboard",
+                            "client_app_name": "ENXENG_AP"
+                        }
 
-                            }),
-                            credentials: "include",
-                            timeout: 150000,
-                            type: "json",
-                            onComplete: (res, headerRes) => {
-                                resolve(res);
-                            },
-                            onFailure:(err, errheader)=> {
-                                reject(err);
-                                document.getElementById("status").innerHTML +=
-                                    "<br>Failed to revise Part: " + JSON.stringify(res);
-                            }
-                        });
-                    });
+                    }),
+                    credentials: "include",
+                    timeout: 150000,
+                    type: "json",
+                    onComplete: (res, headerRes) => {
+                        resolve(res);
+                    },
+                    onFailure: (err, errheader) => {
+                        reject(err);
+                        document.getElementById("status").innerHTML +=
+                            "<br>Failed to revise Part: " + JSON.stringify(res);
+                    }
+                });
+            });
         }
     };
     widget.myWidget = myWidget;
