@@ -485,24 +485,28 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const requestBodyPayload = {
                         items: createPartPayload,
                     };
-                    //Revising Part.
-                    console.log("Revise Part Payload", revisePartPayload);
-                    const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
-                    revisePart.then((res) => {
-                        console.log(res);
-                        document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+                    if (revisePartPayload.length > 0) {
+                        //Revising Part.
+                        console.log("Revise Part Payload", revisePartPayload);
+                        const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePartPayload);
+                        revisePart.then((res) => {
+                            console.log(res);
+                            document.getElementById("status").innerHTML += `<br>Part ${revisePartPayload} Revision Updated Successfully`;
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                    }
                     //Creating Part.
-                    console.log("Create Part Payload", createPartPayload);
-                    const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
-                    createPart.then((res) => {
-                        console.log(res);
-                        document.getElementById("status").innerHTML += `<br>Part ${createPartPayload} Created Successfully`;
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+                    if (createPartPayload.length > 0) {
+                        console.log("Create Part Payload", createPartPayload);
+                        const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
+                        createPart.then((res) => {
+                            console.log(res);
+                            document.getElementById("status").innerHTML += `<br>Part ${createPartPayload} Created Successfully`;
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                    }
 
                 }
                 reader.readAsText(file);
@@ -510,7 +514,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
         },
         revisePart: function (csrfTokenName, csrfTokenValue, payload) {
-            console.log("Revise Part Method Called Payload is: --"+payload);
+            console.log("Revise Part Method Called Payload is: --" + payload);
             return new Promise((resolve, reject) => {
                 const myHeaders = new Object();
                 myHeaders[csrfTokenName] = csrfTokenValue;
