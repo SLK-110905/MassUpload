@@ -459,7 +459,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                             let part = line.split(",");
                             let partName=part[1].trim();
                             let PartRev=part[2].trim();
-                            const searchRes=widget.searchItem(csrfTokenName,csrfTokenValue,partName+"(revision:"+PartRev+")");
+                            const searchRes=widget.searchItem(csrfTokenName,csrfTokenValue,partName+"(revision:AA)");
                             searchRes.then((res)=>{
                                 if(res.member.length>0 && res.member[0].title===partName && res.member[0].revision===PartRev)
                                 {
