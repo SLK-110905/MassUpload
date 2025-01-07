@@ -455,7 +455,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                 searchRes.then((searchResponse) => {
                                     console.log("Search Result" + JSON.stringify(searchResponse));
                                     if (searchResponse.member.length > 0 && searchResponse.member[0].title.trim() === partName.trim() && searchResponse.member[0].revision.trim() === 'AA') {
-                                        console.log("IF Search Result" + JSON.stringify(res));
+                                        console.log("IF Search Result" + JSON.stringify(searchResponse));
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
                                         revisePartPayload.push({
                                             "physicalid": res.member[0].id,
