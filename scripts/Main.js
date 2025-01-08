@@ -64,6 +64,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         },
         updateWidget: function () {
             alert("Update Widget function called");
+            this.onLoad();
         },
         importItem: function (data) {
             console.log("Data Migrating");
