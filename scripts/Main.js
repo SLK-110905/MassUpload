@@ -33,6 +33,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
                     })
                 });
+                widget.addPreference(securitycontextpreference);
                 myWidget.ctx=widget.getValue("securitycontext");
                 widget.body.innerHTML=tempBodyHtml;
             });
