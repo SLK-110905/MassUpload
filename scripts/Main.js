@@ -10,7 +10,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         securityContexturl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
-            let tempBodyHtml=widget.body.innerHTML;
+            let tempBodyHtml = widget.body.innerHTML;
             widget.body.innerHTML = `<h5>Loading<h5>`;
             let securitycontextpreference = {
                 name: "securitycontext",
@@ -34,33 +34,32 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     })
                 });
                 widget.addPreference(securitycontextpreference);
-                myWidget.ctx=widget.getValue("securitycontext");
-                widget.body.innerHTML=tempBodyHtml;
-            });
-            
-            document
-                .getElementById("importbtn")
-                .addEventListener("click", this.importItem);
-            document.getElementById("importType").addEventListener("change", function () {
-                document.getElementById("status").innerHTML = "";
-                const importType = document.getElementById("importType").value;
-                const importFileInputsDiv = document.getElementById("importFileInputsDiv");
-                if (importType === "part") {
-                    importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPart.csv");
-                }
-                else if (importType === "specification") {
-                    importFileInputsDiv.style.display = "block";
-                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importSpec.csv");
-                }
-                else if (importType === "bom") {
-                    importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/ebom.csv");
-                }
-                else if (importType === "partrev") {
-                    importFileInputsDiv.style.display = "none";
-                    document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
-                }
+                myWidget.ctx = widget.getValue("securitycontext");
+                widget.body.innerHTML = tempBodyHtml;
+                document
+                    .getElementById("importbtn")
+                    .addEventListener("click", this.importItem);
+                document.getElementById("importType").addEventListener("change", function () {
+                    document.getElementById("status").innerHTML = "";
+                    const importType = document.getElementById("importType").value;
+                    const importFileInputsDiv = document.getElementById("importFileInputsDiv");
+                    if (importType === "part") {
+                        importFileInputsDiv.style.display = "none";
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPart.csv");
+                    }
+                    else if (importType === "specification") {
+                        importFileInputsDiv.style.display = "block";
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importSpec.csv");
+                    }
+                    else if (importType === "bom") {
+                        importFileInputsDiv.style.display = "none";
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/ebom.csv");
+                    }
+                    else if (importType === "partrev") {
+                        importFileInputsDiv.style.display = "none";
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
+                    }
+                });
             });
         },
         updateWidget: function () {
@@ -459,7 +458,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                     if (searchResponse.member.length > 0 && searchResponse.member[0].title.trim() === partName.trim() && searchResponse.member[0].revision.trim() === 'AA') {
                                         console.log("IF Search Result" + JSON.stringify(searchResponse));
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
-                                        const revisePayload=[{
+                                        const revisePayload = [{
                                             "physicalid": searchResponse.member[0].id,
                                             "modifiedAttributes": {
                                                 "revision": PartRev.trim()
@@ -517,9 +516,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 const myHeaders = new Object();
                 myHeaders[csrfTokenName] = csrfTokenValue;
                 myHeaders["SecurityContext"] = myWidget.ctx;
-                myHeaders["Content-Type"]="application/json";
+                myHeaders["Content-Type"] = "application/json";
                 WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
-                    
+
                     method: "POST",
                     headers: myHeaders,
                     data: JSON.stringify({
