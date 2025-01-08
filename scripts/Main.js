@@ -57,13 +57,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 });
                 console.log(JSON.stringify(res));
                 widget.addPreference(securitycontextpreference);
+                widget.getValue("securitycontext--"+securitycontext);
             });
-            console.log(securitycontextpreference);
-            console.log("Widget.getValue()--"+widget.getValue("securitycontext"));
+            
         },
         updateWidget: function () {
             alert("Update Widget function called");
-            this.onLoad();
         },
         importItem: function (data) {
             console.log("Data Migrating");
