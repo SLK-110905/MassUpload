@@ -34,13 +34,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
                 }
             });
-            console.log(encodeURIComponent(widget.getValue("ctx")));
             let securitycontextpreference = {
                 name: "securitycontext",
                 type: "list",
                 label: "Security Context",
                 options: [],
-                defaultValue: encodeURIComponent(widget.getValue("ctx")),
+                defaultValue: "VPLMProjectLeader.0000000001.Micro Motion",
             };
             myWidget.getSecurityContext().then((res) => {
                 let collabspaces = res.collabspaces;
