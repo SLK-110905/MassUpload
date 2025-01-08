@@ -515,8 +515,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 const myHeaders = new Object();
                 myHeaders[csrfTokenName] = csrfTokenValue;
                 myHeaders["SecurityContext"] = myWidget.ctx;
+                myHeaders["Content-Type"]="application/json";
                 WAFData.authenticatedRequest(myWidget.partwithRevisionUrl, {
-                    "Content-Type": "application/json",
+                    
                     method: "POST",
                     headers: myHeaders,
                     data: JSON.stringify({
