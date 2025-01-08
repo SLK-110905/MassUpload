@@ -10,12 +10,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         securityContexturl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
-            var listPlatform = CAAWebAppsUPDynamicMngt.getListPlatformId();
-            if ( listPlatform > 0 ) {
-                var platformidPreference = CAAWebAppsUPDynamicMngt.getPlatformIdPreference();
-                widget.addPreference(platformidPreference);
-            }
-            
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
