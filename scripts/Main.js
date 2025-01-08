@@ -10,6 +10,26 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         securityContexturl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
+            let tempBodyHtml=widget.body.innerHTML;
+            widget.body.innerHTML = `<h5>Loading<h5>`;
+            myWidget.getSecurityContext().then((res) => {
+                let collabspaces = res.collabspaces;
+                collabspaces.forEach((collabspace) => {
+                    let organization = collabspace.name.trim();
+                    let couples = collabspace.couples;
+                    couples.forEach((couple) => {
+                        const SecurityContextStr = couple.role.name + "." + couple.organization.name + "." + organization;
+                        securitycontextpreference.options.push({
+                            value: SecurityContextStr,
+                            label: SecurityContextStr
+                        });
+
+                    })
+                });
+                myWidget.ctx=widget.getValue("securitycontext");
+                widget.body.innerHTML=tempBodyHtml;
+            });
+            
             document
                 .getElementById("importbtn")
                 .addEventListener("click", this.importItem);
@@ -41,24 +61,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 options: [],
                 defaultValue: "VPLMProjectLeader.0000000001.Micro Motion",
             };
-            myWidget.getSecurityContext().then((res) => {
-                let collabspaces = res.collabspaces;
-                collabspaces.forEach((collabspace) => {
-                    let organization = collabspace.name.trim();
-                    let couples = collabspace.couples;
-                    couples.forEach((couple) => {
-                        const SecurityContextStr = couple.role.name + "." + couple.organization.name + "." + organization;
-                        securitycontextpreference.options.push({
-                            value: SecurityContextStr,
-                            label: SecurityContextStr
-                        });
-
-                    })
-                });
-                console.log(JSON.stringify(res));
-                widget.addPreference(securitycontextpreference);
-                console.log("securitycontext--"+widget.getValue("securitycontext"));
-            });
+            
             
         },
         updateWidget: function () {
