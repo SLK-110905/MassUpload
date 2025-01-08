@@ -12,6 +12,13 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         onLoad: function () {
             let tempBodyHtml=widget.body.innerHTML;
             widget.body.innerHTML = `<h5>Loading<h5>`;
+            let securitycontextpreference = {
+                name: "securitycontext",
+                type: "list",
+                label: "Security Context",
+                options: [],
+                defaultValue: "VPLMProjectLeader.0000000001.Micro Motion",
+            };
             myWidget.getSecurityContext().then((res) => {
                 let collabspaces = res.collabspaces;
                 collabspaces.forEach((collabspace) => {
@@ -54,15 +61,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
                 }
             });
-            let securitycontextpreference = {
-                name: "securitycontext",
-                type: "list",
-                label: "Security Context",
-                options: [],
-                defaultValue: "VPLMProjectLeader.0000000001.Micro Motion",
-            };
-            
-            
         },
         updateWidget: function () {
             alert("Update Widget function called");
