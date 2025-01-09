@@ -125,11 +125,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         if (line.trim() != "" || line != undefined) {
                             let part = line.split(",");
                             parts.push({
-                                type: part[0],
+                                type: part[0].trim(),
                                 attributes: {
-                                    title: part[1],
-                                    isManufacturable: part[2].toLowerCase() === "true",
-                                    description: part[3],
+                                    title: part[1].trim(),
+                                    isManufacturable: part[2].trim().toLowerCase() === "true",
+                                    description: part[3].trim(),
                                 },
                             });
                         }
