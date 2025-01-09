@@ -11,7 +11,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
         partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
             let tempBodyHtml = widget.body.innerHTML;
-            widget.body.innerHTML = `<h5>Loading<h5>`;
+            widget.body.innerHTML = `<h5>Loading.....<h5>`;
             let securitycontextpreference = {
                 name: "securitycontext",
                 type: "list",
