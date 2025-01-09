@@ -186,7 +186,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                 console.log(rows.length)
                 for (let line of rows) {
                     console.log("Line: ", line);
-                    if (line.trim() != "" || line != undefined) {
+                    if (line.trim().length > 0) {
                         let specInfo = line.split(",");
                         let title = specInfo[0].trim();
                         let description = specInfo[1].trim();
@@ -291,7 +291,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     const rows = text.split("\n");
                     rows.shift();
                     for (let line of rows) {
-                        if (line.trim() != "" || line != undefined) {
+                        if (line.trim().length > 0) {
                             let bomInfo = line.split(",");
                             let parentPart = bomInfo[0].trim();
                             let parentPartRev = bomInfo[1].trim();
@@ -450,7 +450,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     let revisePartPayload = [];
                     let createPartPayload = [];
                     for (let line of rows) {
-                        if (line.trim() != "" || line != undefined) {
+                        if (line.trim().length > 0) {
                             let part = line.split(",");
                             let partName = part[1].trim();
                             let PartRev = part[2].trim();
