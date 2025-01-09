@@ -469,7 +469,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                                         const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePayload);
                                         revisePart.then((res) => {
                                             console.log(res);
-                                            document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has been created Successfully`;
+                                            if(res.status==="failure")
+                                            {
+                                                document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has failed revise Reason: ${res.report[0].error}`;
+                                            }
+                                            else
+                                            {
+                                                document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has been created Successfully`;
+                                            }
                                         }).catch((err) => {
                                             console.log(err);
                                         });
