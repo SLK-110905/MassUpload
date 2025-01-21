@@ -29,7 +29,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                         const SecurityContextLbl = organization.replace("MSOL-","") + " - " + couple.organization.title + " - " + couple.role.nls
                         securitycontextpreference.options.push({
                             value: SecurityContextStr,
-                            label: `<p>${SecurityContextLbl}</p>`
+                            label: SecurityContextLbl
                         });
 
                     })
