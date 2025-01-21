@@ -13,11 +13,11 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
             let tempBodyHtml = widget.body.innerHTML;
             widget.body.innerHTML = `<h5>Loading.....<h5>`;
             let securitycontextpreference = {
-                name: "securitycontext",
+                name: "Credentials",
                 type: "list",
-                label: "Security Context",
+                label: "Credentials",
                 options: [],
-                defaultValue: "VPLMProjectLeader.0000000001.Micro Motion",
+                defaultValue: "",
             };
             myWidget.getSecurityContext().then((res) => {
                 let collabspaces = res.collabspaces;
@@ -33,8 +33,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
 
                     })
                 });
+                securitycontextpreference.defaultValue = securitycontextpreference.options[0].value;
                 widget.addPreference(securitycontextpreference);
-                myWidget.ctx = widget.getValue("securitycontext");
+                myWidget.ctx = widget.getValue("Credentials");
                 widget.body.innerHTML = tempBodyHtml;
                 document
                     .getElementById("importbtn")
