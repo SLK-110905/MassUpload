@@ -26,9 +26,10 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
                     let couples = collabspace.couples;
                     couples.forEach((couple) => {
                         const SecurityContextStr = couple.role.name + "." + couple.organization.name + "." + organization;
+                        const SecurityContextLbl = couple.role.name + "-" + couple.organization.name + "-" + organization;
                         securitycontextpreference.options.push({
                             value: SecurityContextStr,
-                            label: SecurityContextStr.replaceAll('.','-')
+                            label: SecurityContextLbl
                         });
 
                     })
