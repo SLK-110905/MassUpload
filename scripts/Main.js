@@ -20,6 +20,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
         securityContexturl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/modeler/pno/person?current=true&select=collabspaces",
         partwithRevisionUrl: "https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/lifecycle/revise/major?tenant=OI000186152&xrequestedwith=xmlhttprequest",
         onLoad: function () {
+            console.log("xlsx------"+XLSX);
             let tempBodyHtml = widget.body.innerHTML;
             widget.body.innerHTML = `<h5>Loading.....<h5>`;
             let securitycontextpreference = {
