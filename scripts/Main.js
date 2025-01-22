@@ -1,3 +1,13 @@
+require.config({
+    paths: {
+        'xlsx': 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min' // Path to xlsx (CDN version)
+    },
+    shim: {
+        'xlsx': {
+            exports: 'XLSX'  // Make sure the global XLSX is exported correctly for RequireJS
+        }
+    }
+});
 define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"], function (WAFData) {
     let myWidget = {
         ctx: "VPLMProjectLeader.0000000001.Micro Motion",
