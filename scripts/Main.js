@@ -8,7 +8,7 @@ require.config({
         }
     }
 });
-define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"],["xlsx"], function (WAFData,XLSX) {
+define("MassUpload/scripts/Main", ["DS/WAFData/WAFData"],['xlsx'], function (WAFData,XLSX) {
     let myWidget = {
         ctx: "VPLMProjectLeader.0000000001.Micro Motion",
         partUrl:
