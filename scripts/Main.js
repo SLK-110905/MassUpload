@@ -214,9 +214,9 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     console.log("Processing Row:", row);
         
                     if (row && row.length >= 3) {
-                        const title = row[0].trim();
-                        const description = row[1].trim();
-                        const specFileName = row[2].trim();
+                        const title = String(row[0]).trim();
+                        const description = String(row[1]).trim();
+                        const specFileName = String(row[2]).trim();
         
                         console.log("Title:", title);
                         console.log("Description:", description);
