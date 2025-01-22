@@ -191,32 +191,46 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
             let startTime = Date.now();
             console.log("Inside Upload Specification");
             console.log("Specification Files: ", specFiles);
+        
+            // Ensure the excelFile is a valid file
             const reader = new FileReader();
             reader.onload = function (e) {
-                const text = e.target.result;
-                const rows = text.split("\n");
-                rows.shift();
-                console.log(rows.length)
-                for (let line of rows) {
-                    console.log("Line: ", line);
-                    if (line.trim().length > 0) {
-                        let specInfo = line.split(",");
-                        let title = specInfo[0].trim();
-                        let description = specInfo[1].trim();
-                        let specFileName = specInfo[2].trim();
-                        console.log("Title: ", title);
-                        console.log("Description: ", description);
-                        console.log("SpecFileName: ", specFileName);
-
-                        let specFile = Array.from(specFiles).find((file) => file.name === specFileName);
-
-                        console.log(specFile);
+                const data = e.target.result;
+                
+                // Read the Excel file using xlsx library
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // Get the name of the first sheet
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+        
+                // Convert the sheet to JSON (array of arrays)
+                const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 }); // Get rows as an array of arrays
+                console.log(`Total rows to process: ${rows.length}`);
+                
+                // Process each row
+                for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                    const row = rows[i];
+                    console.log("Processing Row:", row);
+        
+                    if (row && row.length >= 3) {
+                        const title = row[0].trim();
+                        const description = row[1].trim();
+                        const specFileName = row[2].trim();
+        
+                        console.log("Title:", title);
+                        console.log("Description:", description);
+                        console.log("SpecFileName:", specFileName);
+        
+                        // Find the specFile based on the name
+                        const specFile = Array.from(specFiles).find(file => file.name === specFileName);
+        
                         if (specFile) {
-                            //getting checkinTicket
-                            const myHeaders = new Object();
+                            // Step 1: Get Checkin Ticket
+                            const myHeaders = new Headers();
                             myHeaders[csrfTokenName] = csrfTokenValue;
                             myHeaders["SecurityContext"] = myWidget.ctx;
-                            //myHeaders["Content-Type"] = "application/json";
+                            
                             WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents/files/CheckinTicket", {
                                 method: "PUT",
                                 headers: myHeaders,
@@ -228,6 +242,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                     const formData = new FormData();
                                     formData.append("__fcs__jobTicket", res.data[0].dataelements.ticket);
                                     formData.append("file_0", specFile);
+                                    
+                                    // Step 2: Upload File to FCS
                                     WAFData.proxifiedRequest("https://stg001us1-dfcs.3dexperience.3ds.com/fcs/servlet/fcs/checkin", {
                                         method: "POST",
                                         credentials: "include",
@@ -236,6 +252,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                         data: formData,
                                         onComplete: function (resFcsCheckin, resFcsHeaders) {
                                             console.log(resFcsCheckin);
+                                            
+                                            // Step 3: Create Document Entry
                                             const DocumentRequestBody = {
                                                 "data": [
                                                     {
@@ -256,7 +274,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                                         }
                                                     }
                                                 ]
-                                            }
+                                            };
+        
                                             myHeaders["Content-Type"] = "application/json";
                                             WAFData.authenticatedRequest("https://oi000186152-us1-space.3dexperience.3ds.com/enovia/resources/v1/modeler/documents", {
                                                 method: "POST",
@@ -269,30 +288,29 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                                     console.log("Final Response", finalRes.data);
                                                     document.getElementById("status").innerHTML += `<br>Specification ${title} uploaded successfully`;
                                                 },
-                                                onFailure(err, errhead) {
+                                                onFailure: function (err, errhead) {
                                                     console.log(err);
-                                                    document.getElementById("status").innerHTML +=
-                                                        "<br>Failed to upload Specification: " + JSON.stringify(res);
+                                                    document.getElementById("status").innerHTML += `<br>Failed to upload Specification: ${JSON.stringify(res)}`;
                                                 },
                                             });
                                         },
                                         onFailure: function (err, errheader) {
-                                            document.getElementById("status").innerHTML +=
-                                                "<br>Failed to get fcs ticket: " + JSON.stringify(res);
+                                            document.getElementById("status").innerHTML += `<br>Failed to get fcs ticket: ${JSON.stringify(res)}`;
                                         }
-                                    })
+                                    });
                                 },
-                                onFailure(err, errhead) {
+                                onFailure: function (err, errhead) {
                                     console.log(err);
-                                    document.getElementById("status").innerHTML +=
-                                        "<br>Failed to get Checkin Ticket: " + JSON.stringify(res);
+                                    document.getElementById("status").innerHTML += `<br>Failed to get Checkin Ticket: ${JSON.stringify(res)}`;
                                 },
                             });
                         }
                     }
                 }
             };
-            reader.readAsText(excelFile);
+            
+            // Read the Excel file as an ArrayBuffer
+            reader.readAsArrayBuffer(excelFile);
         },
         uploadBOM: function (csrfTokenName, csrfTokenValue, file) {
             console.log("Importing BOM");
