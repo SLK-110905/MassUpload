@@ -130,38 +130,58 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                 const reader = new FileReader();
                 let parts = [];
                 reader.onload = function (e) {
-                    const text = e.target.result;
-                    const rows = text.split("\n");
+                    const data = e.target.result;
+        
+                    // Parse the XLSX file
+                    const workbook = XLSX.read(data, { type: 'binary' });
+        
+                    // Get the first sheet (adjust as necessary if you need a different sheet)
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        
+                    // Convert the sheet to JSON format with the first row as headers
+                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        
+                    // Skip the header row
                     rows.shift();
+        
+                    // Process each row (similar to how you processed CSV)
                     for (let line of rows) {
                         console.log("Line: ", line);
-                        console.log("Line length:"+line.trim().length);
-                        if (line.trim().length > 0) {
-                            let part = line.split(",");
-                            parts.push({
-                                type: part[0].trim(),
+                        console.log("Line length: " + line.length);
+                        // Check if the line has at least 4 columns
+                        if (line.length >= 4) {
+                            let part = {
+                                type: line[0].trim(),
                                 attributes: {
-                                    title: part[1].trim(),
-                                    isManufacturable: part[2].trim().toLowerCase() === "true",
-                                    description: part[3].trim(),
+                                    title: line[1].trim(),
+                                    isManufacturable: line[2].trim().toLowerCase() === "true",
+                                    description: line[3].trim(),
                                 },
-                            });
+                            };
+                            parts.push(part);
                         }
                     }
+        
                     const requestBody = {
                         items: parts,
                     };
+        
                     console.log(requestBody);
+        
                     document.getElementById("status").innerHTML =
                         "<br><p>Request PayLoad Uploading:" + JSON.stringify(requestBody) + "</p>";
+        
                     console.log("csrfToken", csrfTokenValue);
                     console.log("securityContextValues", myWidget.ctx);
+        
                     const securityContextHeader = "SecurityContext";
                     const myHeaders = new Object();
                     myHeaders[csrfTokenName] = csrfTokenValue;
                     myHeaders[securityContextHeader] = myWidget.ctx;
                     myHeaders["Content-Type"] = "application/json";
+        
                     let startTime = Date.now();
+        
                     WAFData.authenticatedRequest(myWidget.partUrl, {
                         method: "POST",
                         headers: myHeaders,
@@ -174,6 +194,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                             let elapsedTime = endTime - startTime;
                             let minuteTaken = elapsedTime / (1000 * 60);
                             console.log("response", res);
+        
                             document.getElementById("status").innerHTML =
                                 "<br><p style='color: red;'>Time Taken(Minutes): " + minuteTaken + "</p><p>Response : " + JSON.stringify(res) + "</p>";
                         },
@@ -184,7 +205,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                         },
                     });
                 };
-                reader.readAsText(file);
+                reader.readAsArrayBuffer(excelFile);
             }
         },
         uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
