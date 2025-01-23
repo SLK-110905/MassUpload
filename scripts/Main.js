@@ -62,7 +62,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     }
                     else if (importType === "specification") {
                         importFileInputsDiv.style.display = "block";
-                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importSpec.csv");
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importSpec.xlsx");
                     }
                     else if (importType === "bom") {
                         importFileInputsDiv.style.display = "none";
