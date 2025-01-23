@@ -58,7 +58,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     const importFileInputsDiv = document.getElementById("importFileInputsDiv");
                     if (importType === "part") {
                         importFileInputsDiv.style.display = "none";
-                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPart.csv");
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPart.xlsx");
                     }
                     else if (importType === "specification") {
                         importFileInputsDiv.style.display = "block";
@@ -70,7 +70,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     }
                     else if (importType === "partrev") {
                         importFileInputsDiv.style.display = "none";
-                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.csv");
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.xlsx");
                     }
                 });
             });
