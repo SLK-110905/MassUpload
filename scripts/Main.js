@@ -493,26 +493,47 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
         },
         uploadPartWithRevision: function (csrfTokenName, csrfTokenValue, file) {
             console.log("Importing PartWithRevision");
+        
+            // Check if a file is provided
             if (file) {
                 const reader = new FileReader();
+        
+                // Use SheetJS to read the Excel file
                 reader.onload = function (e) {
-                    const text = e.target.result;
-                    const rows = text.split("\n");
+                    const data = e.target.result;
+                    
+                    // Parse the Excel file using SheetJS
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // Assume data is in the first sheet (you can modify this if you have multiple sheets)
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        
+                    // Convert sheet data to JSON format
+                    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    
+                    // Remove header row
                     rows.shift();
+                    
                     let revisePartPayload = [];
                     let createPartPayload = [];
+                    
+                    // Loop through each row in the Excel file
                     for (let line of rows) {
-                        if (line.trim().length > 0) {
-                            let part = line.split(",");
-                            let partName = part[1].trim();
-                            let PartRev = part[2].trim();
+                        if (line.length > 0) {
+                            let partName = String(line[1]).trim();
+                            let PartRev = String(line[2]).trim();
+                            
                             if (PartRev !== 'AA') {
+                                // Search for the part in your system
                                 const searchRes = myWidget.searchItem(csrfTokenName, csrfTokenValue, partName + "(revision:AA)");
+                                
                                 searchRes.then((searchResponse) => {
                                     console.log("Search Result" + JSON.stringify(searchResponse));
+                                    
                                     if (searchResponse.member.length > 0 && searchResponse.member[0].title.trim() === partName.trim() && searchResponse.member[0].revision.trim() === 'AA') {
                                         console.log("IF Search Result" + JSON.stringify(searchResponse));
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} found`;
+                                        
                                         const revisePayload = [{
                                             "physicalid": searchResponse.member[0].id,
                                             "modifiedAttributes": {
@@ -520,43 +541,41 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                             },
                                             "proposedRevision": PartRev.trim()
                                         }];
+                                        
                                         const revisePart = myWidget.revisePart(csrfTokenName, csrfTokenValue, revisePayload);
                                         revisePart.then((res) => {
                                             console.log(res);
-                                            if(res.status==="failure")
-                                            {
+                                            if (res.status === "failure") {
                                                 document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has failed revise Reason: ${res.report[0].error}`;
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 document.getElementById("status").innerHTML += `<br>Part ${partName} revision: ${PartRev} has been created Successfully`;
                                             }
                                         }).catch((err) => {
                                             console.log(err);
                                         });
-                                    }
-                                    else {
+                                    } else {
                                         document.getElementById("status").innerHTML += `<br>Part ${partName} revision: AA not found`;
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 createPartPayload.push({
-                                    type: part[0],
+                                    type: String(line[0]),
                                     attributes: {
-                                        title: part[1],
-                                        isManufacturable: part[2].toLowerCase() === "true",
-                                        description: part[3],
+                                        title: String(line[1]),
+                                        isManufacturable: String(line[2]).toLowerCase() === "true",
+                                        description: String(line[3]),
                                     },
                                 });
                             }
-                        };
+                        }
                     }
+                    
                     const requestBodyPayload = {
                         items: createPartPayload,
                     };
                     console.log("Create Part Payload", createPartPayload);
-                    //Creating Part.
+                    
+                    // Creating parts if necessary
                     if (createPartPayload.length > 0) {
                         const createPart = myWidget.createPart(csrfTokenName, csrfTokenValue, requestBodyPayload);
                         createPart.then((res) => {
@@ -566,11 +585,12 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                             console.log(err);
                         });
                     }
-
-                }
-                reader.readAsText(file);
+        
+                };
+                
+                // Read the file as binary string for SheetJS
+                reader.readAsArrayBuffer(file);
             }
-
         },
         revisePart: function (csrfTokenName, csrfTokenValue, payload) {
             console.log("Revise Part Method Called Payload is: --" + payload);
