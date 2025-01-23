@@ -133,7 +133,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     const data = e.target.result;
         
                     // Parse the XLSX file
-                    const workbook = XLSX.read(data, { type: 'binary' });
+                    const workbook = XLSX.read(data, { type: 'array' });
         
                     // Get the first sheet (adjust as necessary if you need a different sheet)
                     const sheet = workbook.Sheets[workbook.SheetNames[0]];
