@@ -153,8 +153,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                             let part = {
                                 type: line[0].trim(),
                                 attributes: {
-                                    title: line[1].trim(),
-                                    isManufacturable: line[2].trim().toLowerCase() === "true",
+                                    title: String(line[1]).trim(),
+                                    isManufacturable: String(line[2]).trim().toLowerCase() === "true",
                                     description: line[3].trim(),
                                 },
                             };
