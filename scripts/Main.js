@@ -205,7 +205,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                         },
                     });
                 };
-                reader.readAsArrayBuffer(excelFile);
+                reader.readAsArrayBuffer(file);
             }
         },
         uploadSpecifications: function (csrfTokenName, csrfTokenValue, excelFile, specFiles) {
