@@ -239,7 +239,6 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                         const description = String(row[1]).trim();
                         console.log("Title:", title);
                         console.log("Description:", description);
-                        console.log("SpecFileName:", specFileName);
                         const specFileList = String(row[2]).trim().split(",");
                         specFileList.forEach((specFileName) => {
                         console.log("SpecFileName:", specFileName);
