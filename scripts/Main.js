@@ -70,7 +70,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     }
                     else if (importType === "partrev") {
                         importFileInputsDiv.style.display = "none";
-                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/partRev.xlsx");
+                        document.getElementById("downloadtemplate").setAttribute("href", "https://slk-110905.github.io/MassUpload/importPartRev.xlsx");
                     }
                 });
             });
