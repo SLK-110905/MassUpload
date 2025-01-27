@@ -237,15 +237,14 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                     if (row && row.length >= 3) {
                         const title = String(row[0]).trim();
                         const description = String(row[1]).trim();
-                        const specFileName = String(row[2]).trim();
-        
                         console.log("Title:", title);
                         console.log("Description:", description);
                         console.log("SpecFileName:", specFileName);
-        
+                        const specFileList = String(row[2]).trim().split(",");
+                        specFileList.forEach((specFileName) => {
+                        console.log("SpecFileName:", specFileName);
                         // Find the specFile based on the name
                         const specFile = Array.from(specFiles).find(file => file.name === specFileName);
-        
                         if (specFile) {
                             // Step 1: Get Checkin Ticket
                             const myHeaders = new Headers();
@@ -326,6 +325,7 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                                 },
                             });
                         }
+                    });
                     }
                 }
             };
