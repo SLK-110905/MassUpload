@@ -240,7 +240,8 @@ define("MassUpload/scripts/Main", ["DS/WAFData/WAFData","xlsx"],function (WAFDat
                         console.log("Title:", title);
                         console.log("Description:", description);
                         const specFileList = String(row[2]).trim().split(",");
-                        console.log("specFileList--"+specFileList);
+                        console.log("specFileList--", specFileList[0]);
+                        console.log("specFileList--", specFileList);
                         specFileList.forEach((specFileName) => {
                         console.log("SpecFileName:", specFileName);
                         // Find the specFile based on the name
